@@ -2,8 +2,10 @@
 :root {
     --bg-main: #f8fafc;
     --bg-card: #ffffff;
-    --accent: #5a67d8;
-    --accent-light: rgba(90, 103, 216, 0.1);
+    --accent: #5b67f1;
+    /* Azul vibrante de la imagen */
+    --accent-light: rgba(91, 103, 241, 0.15);
+    --accent-shadow: rgba(91, 103, 241, 0.4);
     --text-primary: #000000;
     --text-secondary: #000000;
     --text-muted: #000000;
@@ -190,11 +192,15 @@ body {
 }
 
 .form-group-vertical label.question-label {
-    font-weight: 600;
+    font-weight: 700;
+    /* Negrita más intensa como en la imagen */
     color: var(--text-primary);
-    font-size: 1rem;
-    margin-bottom: 0.5rem;
+    font-size: 1.15rem;
+    /* Tamaño ligeramente superior para jerarquía */
+    margin-bottom: 1.25rem;
+    /* Espacio respirable antes de las opciones */
     display: block;
+    text-align: left;
 }
 
 .radio-list {
@@ -205,65 +211,191 @@ body {
 
 .radio-option-item {
     font-weight: 400 !important;
-    /* NO BOLD en respuestas */
     display: inline-flex;
-    /* Cambiado a inline-flex o flex con width auto */
     width: fit-content;
-    /* NO ocupar todo el ancho */
     align-items: center;
     gap: 1rem;
     cursor: pointer;
-    font-size: 1rem;
     line-height: normal;
-    color: var(--text-secondary);
-    justify-content: flex-start;
+    color: var(--text-primary);
     text-align: left;
-    /* Forzar texto a la izquierda */
+    justify-content: flex-start;
 }
 
 .radio-option-item input[type="radio"] {
-    appearance: none;
     display: grid;
     place-content: center;
-    width: 36px;
-    height: 36px;
-    min-width: 36px;
-    /* BLINDAJE ANTI-OVALADO */
-    min-height: 36px;
-    border: 2px solid rgb(95, 99, 104);
-    border-radius: 50%;
+    width: 32px;
+    /* Tamaño optimizado para fidelidad visual */
+    height: 32px;
+    min-width: 32px;
+    /* Blindaje contra distorsión */
+    min-height: 32px;
     margin: 0;
-    padding: 0;
-    flex-shrink: 0;
-    /* BLINDAJE ANTI-APLASTAMIENTO */
-    position: relative;
+    border: 2px solid #5f6368;
+    /* Color gris de la imagen */
+    border-radius: 50%;
+    /* Círculo perfecto */
+    background-color: #fff;
     cursor: pointer;
-    background: white;
     transition: all 0.2s ease;
+    flex-shrink: 0;
+    /* Evita que se aplaste */
+    position: relative;
 }
 
 .radio-option-item input[type="radio"]:checked {
-    border-color: var(--accent);
-    background: var(--accent);
-    /* Fondo relleno al seleccionar, estilo Likert */
-    box-shadow: 0 4px 12px rgba(90, 103, 216, 0.3);
+    transform: scale(1.1);
 }
 
 .radio-option-item input[type="radio"]:checked::after {
-    content: '';
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    width: 12px;
-    height: 12px;
+    width: 6px;
+    height: 6px;
+}
+
+/* Frequency Matrix (AI Tools) */
+.matrix-question-title {
+    font-size: 1.25rem;
+    font-weight: 700;
+    margin-bottom: 1.5rem;
+    color: var(--text-primary);
+}
+
+.frequency-matrix {
+    border: 1px solid var(--border);
+    border-radius: 12px;
+    overflow: hidden;
     background: white;
-    /* Punto blanco interno */
+}
+
+.freq-header {
+    display: grid;
+    grid-template-columns: 2fr repeat(4, 1fr);
+    background: #f8fafc;
+    border-bottom: 2px solid var(--border);
+    padding: 0;
+}
+
+.freq-header div {
+    padding: 1rem;
+    font-weight: 700;
+    font-size: 0.85rem;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--text-muted);
+    text-align: center;
+}
+
+.freq-header .cell-tool {
+    text-align: left;
+}
+
+.freq-row {
+    display: grid;
+    grid-template-columns: 2fr 4fr;
+    border-bottom: 1px solid var(--border);
+}
+
+.freq-row:last-child {
+    border-bottom: none;
+}
+
+.cell-label {
+    padding: 1rem 1.5rem;
+    font-weight: 600;
+    color: var(--text-primary);
+    display: flex;
+    align-items: center;
+    background: #fbfcfd;
+}
+
+.options-group {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+}
+
+.cell-option-mobile {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+    cursor: pointer;
+    transition: background 0.2s;
+}
+
+.cell-option-mobile:hover {
+    background: #f1f5f9;
+}
+
+.cell-option-mobile input[type="radio"] {
+    appearance: none;
+    -webkit-appearance: none;
+    display: grid;
+    place-content: center;
+    width: 24px;
+    height: 24px;
+    border: 2px solid #5f6368;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    transition: all 0.2s ease;
+    position: relative;
+}
+
+.cell-option-mobile input[type="radio"]:checked {
+    background-color: var(--accent);
+    border-color: var(--accent);
+    box-shadow: 0 3px 8px var(--accent-shadow);
+}
+
+.cell-option-mobile input[type="radio"]:checked::after {
+    content: "";
+    width: 8px;
+    height: 8px;
+    background: white;
     border-radius: 50%;
 }
 
+.opt-text {
+    display: none;
+    /* Oculto en desktop */
+}
 
-/* Matrix Table */
+@media (max-width: 768px) {
+    .freq-header {
+        display: none;
+    }
+
+    .freq-row {
+        grid-template-columns: 1fr;
+    }
+
+    .cell-label {
+        background: #f1f5f9;
+        padding: 0.75rem 1rem;
+        font-size: 1.1rem;
+        border-bottom: 1px solid var(--border);
+    }
+
+    .options-group {
+        grid-template-columns: 1fr;
+        padding: 0.5rem 0;
+    }
+
+    .cell-option-mobile {
+        justify-content: flex-start;
+        gap: 1rem;
+        padding: 0.75rem 1.5rem;
+    }
+
+    .opt-text {
+        display: inline;
+        font-size: 1rem;
+        font-weight: 400;
+        color: var(--text-secondary);
+    }
+}
+
 .matrix-header-sticky,
 .matrix-row {
 
@@ -275,8 +407,8 @@ body {
     border-radius: 18px 18px 0 0;
     border: 1px solid var(--border);
     border-bottom: 3px solid var(--accent);
-    text-align: center;
-    /* Alineación centrada para encabezados en PC/Tablet */
+    text-align: left;
+    /* Alineación a la izquierda para encabezados */
 }
 
 /* Línea azul de la imagen */
@@ -363,9 +495,8 @@ body {
 }
 
 .question-text {
-    text-align: justify;
+    text-align: left;
     padding-right: 1.5rem;
-    /* Añadir un poco de espacio para que la justificación no pegue con la siguiente columna */
 }
 
 .category-title {
@@ -413,7 +544,7 @@ body {
 
 .likert-label {
     font-size: 0.9rem;
-    font-weight: 500;
+    font-weight: 400;
     color: var(--text-muted);
 }
 
@@ -434,13 +565,13 @@ body {
     border-color: var(--accent);
     background: var(--accent);
     transform: scale(1.1);
-    box-shadow: 0 4px 12px rgba(90, 103, 216, 0.3);
+    box-shadow: 0 4px 12px var(--accent-shadow);
 }
 
 .likert-option input:checked+.likert-circle::after {
-    content: '';
-    width: 12px;
-    height: 12px;
+    content: "";
+    width: 10px;
+    height: 10px;
     background: white;
     border-radius: 50%;
 }
@@ -636,13 +767,12 @@ body {
 
     .col-category {
         display: flex;
-        justify-content: center !important;
-        /* Forzar centrado */
+        justify-content: flex-start !important;
+        /* Forzar alineación a la izquierda */
         align-items: center;
-        text-align: center !important;
-        padding-left: 0;
+        text-align: left !important;
+        padding-left: 0.5rem;
         width: 100%;
-        /* Ocupar todo el espacio de la celda */
     }
 
     /* Asegurar que Pasado y Ahora estén centrados */
@@ -746,14 +876,12 @@ body {
     .matrix-header-sticky {
         display: grid;
         top: 0;
-        /* AHORA SE PEGA ARRIBA DEL TODO AL HACER SCROLL */
         font-size: 0.7rem;
         padding: 10px 5px;
         z-index: 95;
         border-radius: 0;
-        text-align: center;
+        text-align: left;
         box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-        /* Añadir sombra para que se note sobre el contenido */
     }
 
     .col-past {
