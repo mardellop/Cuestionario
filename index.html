@@ -92,81 +92,299 @@
                             </div>
                         </div>
 
-                        <!-- Tarjeta 3: Tiempo IAG -->
+                        <!-- Tarjeta 3: Tiempo usando IAG -->
                         <div class="info-card">
                             <div class="form-group-vertical">
-                                <label class="question-label">Pregunta 1</label>
+                                <label class="question-label">¿Cuánto tiempo llevas utilizando la IAG?</label>
                                 <div class="radio-list">
                                     <label class="radio-option-item">
-                                        <input type="radio" name="time_using_ai" value="Respuesta 1">
-                                        <span>Respuesta 1</span>
+                                        <input type="radio" name="time_using_ai" value="Menos de 1 año">
+                                        <span>Menos de 1 año</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="time_using_ai" value="Respuesta 2">
-                                        <span>Respuesta 2</span>
+                                        <input type="radio" name="time_using_ai" value="Entre 1 y 2 años">
+                                        <span>Entre 1 y 2 años</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="time_using_ai" value="Respuesta 3">
-                                        <span>Respuesta 3</span>
+                                        <input type="radio" name="time_using_ai" value="Entre 2 y 3 años">
+                                        <span>Entre 2 y 3 años</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="time_using_ai" value="Respuesta 4">
-                                        <span>Respuesta 4</span>
+                                        <input type="radio" name="time_using_ai" value="Más de 3 años">
+                                        <span>Más de 3 años</span>
                                     </label>
                                 </div>
                             </div>
-
                         </div>
-
                         <!-- Tarjeta 4: Frecuencia IAG -->
                         <div class="info-card">
                             <div class="form-group-vertical">
-                                <label class="question-label">Pregunta 2</label>
+                                <label class="question-label">¿Con qué frecuencia usas la IAG?</label>
                                 <div class="radio-list">
                                     <label class="radio-option-item">
-                                        <input type="radio" name="frequency_using_ai" value="Respuesta 1">
-                                        <span>Respuesta 1</span>
+                                        <input type="radio" name="frequency_using_ai" value="Nunca">
+                                        <span>Nunca</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="frequency_using_ai" value="Respuesta 2">
-                                        <span>Respuesta 2</span>
+                                        <input type="radio" name="frequency_using_ai" value="Una vez al mes">
+                                        <span>Una vez al mes</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="frequency_using_ai" value="Respuesta 3">
-                                        <span>Respuesta 3</span>
+                                        <input type="radio" name="frequency_using_ai" value="Varias veces al mes">
+                                        <span>Varias veces al mes</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="frequency_using_ai" value="Respuesta 4">
-                                        <span>Respuesta 4</span>
+                                        <input type="radio" name="frequency_using_ai" value="Una vez a la semana">
+                                        <span>Una vez a la semana</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="frequency_using_ai" value="Varias veces a la semana">
+                                        <span>Varias veces a la semana</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="frequency_using_ai" value="A diario">
+                                        <span>Una vez a la semana</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="frequency_using_ai" value="Varias veces al día">
+                                        <span>Varias veces al día</span>
                                     </label>
                                 </div>
                             </div>
                         </div>
 
-                        <!-- Tarjeta 4: Pregunta 3 -->
+                        <!-- Tarjeta 5: Frecuencia de herramientas IAG -->
+                        <div class="info-card">
+                            <h3 class="matrix-question-title">¿Qué herramienta/s de IAG utilizas con mayor frecuencia?
+                                <span class="required">*</span>
+                            </h3>
+
+                            <div class="frequency-matrix">
+                                <!-- Cabecera (Visible solo en Desktop) -->
+                                <div class="freq-header">
+                                    <div class="cell-tool">Herramienta</div>
+                                    <div class="cell-option">Nunca</div>
+                                    <div class="cell-option">Ocasionalmente</div>
+                                    <div class="cell-option">Semanalmente</div>
+                                    <div class="cell-option">Diariamente</div>
+                                </div>
+
+                                <!-- Filas -->
+                                <div class="freq-body">
+                                    <!-- Fila: ChatGPT -->
+                                    <div class="freq-row">
+                                        <div class="cell-label">ChatGPT</div>
+                                        <div class="options-group">
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_chatgpt"
+                                                    value="Nunca" required> <span class="opt-text">Nunca</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_chatgpt"
+                                                    value="Ocasionalmente"> <span
+                                                    class="opt-text">Ocasionalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_chatgpt"
+                                                    value="Semanalmente"> <span
+                                                    class="opt-text">Semanalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_chatgpt"
+                                                    value="Diariamente"> <span
+                                                    class="opt-text">Diariamente</span></label>
+                                        </div>
+                                    </div>
+                                    <!-- Fila: Copilot -->
+                                    <div class="freq-row">
+                                        <div class="cell-label">Copilot</div>
+                                        <div class="options-group">
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_copilot"
+                                                    value="Nunca" required> <span class="opt-text">Nunca</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_copilot"
+                                                    value="Ocasionalmente"> <span
+                                                    class="opt-text">Ocasionalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_copilot"
+                                                    value="Semanalmente"> <span
+                                                    class="opt-text">Semanalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_copilot"
+                                                    value="Diariamente"> <span
+                                                    class="opt-text">Diariamente</span></label>
+                                        </div>
+                                    </div>
+                                    <!-- Fila: Gemini -->
+                                    <div class="freq-row">
+                                        <div class="cell-label">Gemini</div>
+                                        <div class="options-group">
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_gemini"
+                                                    value="Nunca" required> <span class="opt-text">Nunca</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_gemini"
+                                                    value="Ocasionalmente"> <span
+                                                    class="opt-text">Ocasionalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_gemini"
+                                                    value="Semanalmente"> <span
+                                                    class="opt-text">Semanalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_gemini"
+                                                    value="Diariamente"> <span
+                                                    class="opt-text">Diariamente</span></label>
+                                        </div>
+                                    </div>
+                                    <!-- Fila: Claude -->
+                                    <div class="freq-row">
+                                        <div class="cell-label">Claude</div>
+                                        <div class="options-group">
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_claude"
+                                                    value="Nunca" required> <span class="opt-text">Nunca</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_claude"
+                                                    value="Ocasionalmente"> <span
+                                                    class="opt-text">Ocasionalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_claude"
+                                                    value="Semanalmente"> <span
+                                                    class="opt-text">Semanalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_claude"
+                                                    value="Diariamente"> <span
+                                                    class="opt-text">Diariamente</span></label>
+                                        </div>
+                                    </div>
+                                    <!-- Fila: Canva -->
+                                    <div class="freq-row">
+                                        <div class="cell-label">Canva (IA)</div>
+                                        <div class="options-group">
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_canva"
+                                                    value="Nunca" required> <span class="opt-text">Nunca</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_canva"
+                                                    value="Ocasionalmente"> <span
+                                                    class="opt-text">Ocasionalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_canva"
+                                                    value="Semanalmente"> <span
+                                                    class="opt-text">Semanalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_canva"
+                                                    value="Diariamente"> <span
+                                                    class="opt-text">Diariamente</span></label>
+                                        </div>
+                                    </div>
+                                    <!-- Fila: Gamma -->
+                                    <div class="freq-row">
+                                        <div class="cell-label">Gamma</div>
+                                        <div class="options-group">
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_gamma"
+                                                    value="Nunca" required> <span class="opt-text">Nunca</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_gamma"
+                                                    value="Ocasionalmente"> <span
+                                                    class="opt-text">Ocasionalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_gamma"
+                                                    value="Semanalmente"> <span
+                                                    class="opt-text">Semanalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_gamma"
+                                                    value="Diariamente"> <span
+                                                    class="opt-text">Diariamente</span></label>
+                                        </div>
+                                    </div>
+                                    <!-- Fila: Perplexity -->
+                                    <div class="freq-row">
+                                        <div class="cell-label">Perplexity</div>
+                                        <div class="options-group">
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_perplexity"
+                                                    value="Nunca" required> <span class="opt-text">Nunca</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_perplexity"
+                                                    value="Ocasionalmente"> <span
+                                                    class="opt-text">Ocasionalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_perplexity"
+                                                    value="Semanalmente"> <span
+                                                    class="opt-text">Semanalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_perplexity"
+                                                    value="Diariamente"> <span
+                                                    class="opt-text">Diariamente</span></label>
+                                        </div>
+                                    </div>
+                                    <!-- Fila: Dall-e -->
+                                    <div class="freq-row">
+                                        <div class="cell-label">Dall-e</div>
+                                        <div class="options-group">
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_dalle"
+                                                    value="Nunca" required> <span class="opt-text">Nunca</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_dalle"
+                                                    value="Ocasionalmente"> <span
+                                                    class="opt-text">Ocasionalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_dalle"
+                                                    value="Semanalmente"> <span
+                                                    class="opt-text">Semanalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_dalle"
+                                                    value="Diariamente"> <span
+                                                    class="opt-text">Diariamente</span></label>
+                                        </div>
+                                    </div>
+                                    <!-- Fila: NotebookLM -->
+                                    <div class="freq-row">
+                                        <div class="cell-label">NotebookLM</div>
+                                        <div class="options-group">
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_notebooklm"
+                                                    value="Nunca" required> <span class="opt-text">Nunca</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_notebooklm"
+                                                    value="Ocasionalmente"> <span
+                                                    class="opt-text">Ocasionalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_notebooklm"
+                                                    value="Semanalmente"> <span
+                                                    class="opt-text">Semanalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_notebooklm"
+                                                    value="Diariamente"> <span
+                                                    class="opt-text">Diariamente</span></label>
+                                        </div>
+                                    </div>
+                                    <!-- Fila: Otras -->
+                                    <div class="freq-row">
+                                        <div class="cell-label">Otras</div>
+                                        <div class="options-group">
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_otras"
+                                                    value="Nunca" required> <span class="opt-text">Nunca</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_otras"
+                                                    value="Ocasionalmente"> <span
+                                                    class="opt-text">Ocasionalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_otras"
+                                                    value="Semanalmente"> <span
+                                                    class="opt-text">Semanalmente</span></label>
+                                            <label class="cell-option-mobile"><input type="radio" name="freq_otras"
+                                                    value="Diariamente"> <span
+                                                    class="opt-text">Diariamente</span></label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 6: Uso de IA -->
                         <div class="info-card">
                             <div class="form-group-vertical">
-                                <label class="question-label">Pregunta 3</label>
+                                <label class="question-label">¿Para qué usas la IA?</label>
                                 <div class="radio-list">
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai" value="Respuesta 1">
-                                        <span>Respuesta 1</span>
+                                        <input type="radio" name="cuarta_using_ai" value="Para estudiar">
+                                        <span>Para estudiar</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai" value="Respuesta 2">
-                                        <span>Respuesta 2</span>
+                                        <input type="radio" name="cuarta_using_ai"
+                                            value="Para hacer trabajos o tareas de la universidad">
+                                        <span>Para hacer trabajos o tareas de la universidad</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai" value="Respuesta 3">
-                                        <span>Respuesta 3</span>
+                                        <input type="radio" name="cuarta_using_ai"
+                                            value="Para organizar viajes o actividades">
+                                        <span>Para organizar viajes o actividades</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai" value="Respuesta 4">
-                                        <span>Respuesta 4</span>
+                                        <input type="radio" name="cuarta_using_ai" value="Para resolver dudas rápidas">
+                                        <span>Para resolver dudas rápidas</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai" value="Respuesta 5">
-                                        <span>Respuesta 5</span>
+                                        <input type="radio" name="cuarta_using_ai"
+                                            value="Para crear imágenes o contenido creativo">
+                                        <span>Para crear imágenes o contenido creativo</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="cuarta_using_ai"
+                                            value="Para redactar correos o textos">
+                                        <span>Para redactar correos o textos</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="cuarta_using_ai" value="Para aprender cosas nuevas">
+                                        <span>Para aprender cosas nuevas</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="cuarta_using_ai" value="Para ocio o entretenimiento">
+                                        <span>Para ocio o entretenimiento</span>
                                     </label>
                                 </div>
                             </div>
@@ -255,7 +473,7 @@
     </div>
 
     <script src="app.js"></script>
-    <script>if (window.lucidee.createIcons();</script>
+    <script>if (window.lucide) lucide.createIcons();</script>
 </body>
 
 </html>
