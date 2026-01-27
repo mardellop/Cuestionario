@@ -1,0 +1,870 @@
+/* Google Fonts - Outfit */
+:root {
+    --bg-main: #f8fafc;
+    --bg-card: #ffffff;
+    --accent: #5a67d8;
+    --accent-light: rgba(90, 103, 216, 0.1);
+    --text-primary: #000000;
+    --text-secondary: #000000;
+    --text-muted: #000000;
+    --border: #e2e8f0;
+    --radius: 12px;
+    --transition: all 0.3s ease;
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Outfit', sans-serif;
+    background-color: var(--bg-main);
+    color: var(--text-primary);
+    line-height: 1.6;
+    -webkit-font-smoothing: antialiased;
+}
+
+.container {
+    max-width: 1100px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+}
+
+/* Header */
+.app-header {
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(10px);
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    padding: 1rem 0;
+}
+
+.app-header .container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.logo {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    font-size: 1.25rem;
+    font-weight: 700;
+    color: var(--text-primary);
+}
+
+.icon-logo {
+    color: var(--accent);
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.status-indicator {
+    font-size: 0.85rem;
+    color: var(--text-muted);
+}
+
+.btn-icon-sq {
+    background: white;
+    border: 1px solid var(--border);
+    padding: 0.6rem;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-icon-sq:hover {
+    background: var(--bg-main);
+    border-color: var(--accent);
+}
+
+/* Questionnaire Layout */
+.questionnaire-section {
+    margin-top: 3rem;
+    margin-bottom: 5rem;
+}
+
+.survey-intro {
+    text-align: center;
+    margin-bottom: 3rem;
+}
+
+.survey-intro h1 {
+    font-size: 2.5rem;
+    margin-bottom: 1rem;
+    color: #000000;
+}
+
+.survey-intro p {
+    font-size: 1.1rem;
+    color: var(--text-secondary);
+}
+
+/* User Info Section (Contenedor transparente) */
+.user-info-section {
+    background: transparent;
+    padding: 0;
+    border: none;
+    border-radius: 0;
+    margin-bottom: 2rem;
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 2rem;
+    /* Separación grande entre tarjetas */
+    box-shadow: none;
+}
+
+/* Tarjeta individual para cada pregunta */
+.info-card {
+    background: white;
+    padding: 2rem 2.5rem;
+    border-radius: 12px;
+    border: 1px solid var(--border);
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+}
+
+.form-group {
+    display: flex;
+    align-items: center;
+    gap: 1.5rem;
+}
+
+.user-info-section label {
+    font-weight: 600;
+    color: var(--text-secondary);
+    font-size: 1rem;
+    text-transform: none;
+    letter-spacing: normal;
+    white-space: nowrap;
+    min-width: 100px;
+}
+
+.user-info-section input,
+.user-info-section select {
+    flex: 1;
+    padding: 0.85rem 1.25rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+    font-family: inherit;
+    font-size: 1.1rem;
+    transition: var(--transition);
+    background: #f8fafc;
+}
+
+.user-info-section select {
+    cursor: pointer;
+    appearance: none;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' fill='none' viewBox='0 0 20 20'%3e%3cpath stroke='%236b7280' stroke-linecap='round' stroke-linejoin='round' stroke-width='1.5' d='M6 8l4 4 4-4'/%3e%3c/svg%3e");
+    background-position: right 0.5rem center;
+    background-repeat: no-repeat;
+    background-size: 1.5em 1.5em;
+    padding-right: 2.5rem;
+}
+
+.user-info-section input:focus,
+.user-info-section select:focus {
+    outline: none;
+    border-color: var(--accent);
+    background: white;
+    box-shadow: 0 0 0 3px var(--accent-light);
+}
+
+/* Vertical Radio Lists */
+/* Vertical Radio Lists */
+.form-group-vertical {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+    margin-top: 0;
+    /* Eliminado margen superior extra */
+}
+
+.form-group-vertical label.question-label {
+    font-weight: 600;
+    color: var(--text-primary);
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+    display: block;
+}
+
+.radio-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0.75rem;
+}
+
+.radio-option-item {
+    font-weight: 400 !important;
+    /* NO BOLD en respuestas */
+    display: inline-flex;
+    /* Cambiado a inline-flex o flex con width auto */
+    width: fit-content;
+    /* NO ocupar todo el ancho */
+    align-items: center;
+    gap: 1rem;
+    cursor: pointer;
+    font-size: 1rem;
+    line-height: normal;
+    color: var(--text-secondary);
+    justify-content: flex-start;
+    text-align: left;
+    /* Forzar texto a la izquierda */
+}
+
+.radio-option-item input[type="radio"] {
+    appearance: none;
+    display: grid;
+    place-content: center;
+    width: 36px;
+    height: 36px;
+    min-width: 36px;
+    /* BLINDAJE ANTI-OVALADO */
+    min-height: 36px;
+    border: 2px solid rgb(95, 99, 104);
+    border-radius: 50%;
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+    /* BLINDAJE ANTI-APLASTAMIENTO */
+    position: relative;
+    cursor: pointer;
+    background: white;
+    transition: all 0.2s ease;
+}
+
+.radio-option-item input[type="radio"]:checked {
+    border-color: var(--accent);
+    background: var(--accent);
+    /* Fondo relleno al seleccionar, estilo Likert */
+    box-shadow: 0 4px 12px rgba(90, 103, 216, 0.3);
+}
+
+.radio-option-item input[type="radio"]:checked::after {
+    content: '';
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    width: 12px;
+    height: 12px;
+    background: white;
+    /* Punto blanco interno */
+    border-radius: 50%;
+}
+
+
+/* Matrix Table */
+.matrix-header-sticky,
+.matrix-row {
+
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1.5fr;
+    align-items: center;
+    padding: 20px;
+    background: white;
+    border-radius: 18px 18px 0 0;
+    border: 1px solid var(--border);
+    border-bottom: 3px solid var(--accent);
+    text-align: center;
+    /* Alineación centrada para encabezados en PC/Tablet */
+}
+
+/* Línea azul de la imagen */
+.matrix-header-sticky {
+    font-weight: 700;
+    font-size: 0.9rem;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    color: #000000;
+    position: sticky;
+    top: 73px;
+    z-index: 90;
+}
+
+/* Alineación de los grupos de radio buttons */
+.rating-group {
+    display: flex;
+    justify-content: space-around;
+    /* Distribuye los números 1-5 uniformemente */
+    padding: 0 10px;
+}
+
+.rating-item {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    cursor: pointer;
+}
+
+/* El círculo (basado en la imagen) */
+.rating-item i {
+    width: 22px;
+    height: 22px;
+    border: 1px solid #cbd5e1;
+    border-radius: 50%;
+    margin-bottom: 5px;
+    background: white;
+}
+
+.rating-item span {
+    font-size: 12px;
+    color: #64748b;
+}
+
+/* Estilo para cuando se selecciona */
+.rating-item input:checked+i {
+    background-color: #5b67f1;
+    border-color: #5b67f1;
+    box-shadow: inset 0 0 0 3px white;
+}
+
+/* Esconder el radio button original */
+.rating-item input {
+    display: none;
+}
+
+.col-now {
+    color: #000000;
+    text-align: center;
+}
+
+.col-past {
+    text-align: center;
+}
+
+#questions-container {
+    background: white;
+    border-radius: 0 0 12px 12px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+.question-row {
+    display: grid;
+    grid-template-columns: 2fr 1.5fr 1.5fr;
+    align-items: center;
+    padding: 2.5rem 2.5rem;
+    border: 1px solid var(--border);
+    border-top: none;
+    transition: background 0.2s;
+}
+
+.question-row:hover {
+    background: #fcfdfe;
+}
+
+.question-text {
+    text-align: justify;
+    padding-right: 1.5rem;
+    /* Añadir un poco de espacio para que la justificación no pegue con la siguiente columna */
+}
+
+.category-title {
+    display: block;
+    font-size: 1.1rem;
+    /* Reducido de 1.3rem */
+    font-weight: 600;
+    color: #000000;
+    margin-bottom: 0.5rem;
+}
+
+.question-subtext {
+    font-size: 1rem;
+    color: var(--text-muted);
+}
+
+/* Likert Scales */
+.likert-group {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 1rem;
+}
+
+.likert-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.likert-circle {
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgb(95, 99, 104);
+    border-radius: 50%;
+    background: white;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.likert-label {
+    font-size: 0.9rem;
+    font-weight: 500;
+    color: var(--text-muted);
+}
+
+.likert-option input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+
+/* Checked State */
+.likert-option input:checked+.likert-circle {
+    border-color: var(--accent);
+    background: var(--accent);
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px rgba(90, 103, 216, 0.3);
+}
+
+.likert-option input:checked+.likert-circle::after {
+    content: '';
+    width: 12px;
+    height: 12px;
+    background: white;
+    border-radius: 50%;
+}
+
+.likert-option input:checked~.likert-label {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* Admin Panel Styling */
+.admin-card {
+    background: white;
+    padding: 2.5rem;
+    border-radius: 16px;
+    border: 1px solid var(--border);
+    margin-top: 2rem;
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.05);
+}
+
+.admin-setting-group {
+    margin-bottom: 1.5rem;
+}
+
+.admin-setting-group label {
+    display: block;
+    margin-bottom: 0.5rem;
+    font-weight: 600;
+}
+
+.admin-setting-group input {
+    width: 100%;
+    padding: 0.75rem;
+    border-radius: 8px;
+    border: 1px solid var(--border);
+}
+
+.admin-list {
+    max-height: 350px;
+    overflow-y: auto;
+    margin: 1.5rem 0;
+    padding: 1rem;
+    background: #f8fafc;
+    border-radius: 12px;
+}
+
+.admin-q-item {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr auto;
+    gap: 1rem;
+    margin-bottom: 1rem;
+    padding: 1rem;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+}
+
+/* Buttons */
+.btn {
+    padding: 0.75rem 1.5rem;
+    border-radius: 10px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: var(--transition);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    border: none;
+}
+
+.btn-primary {
+    background: var(--accent);
+    color: white;
+}
+
+.btn-primary:hover {
+    background: #4c51bf;
+    transform: translateY(-2px);
+}
+
+.btn-secondary {
+    background: white;
+    border: 1px solid var(--border);
+    color: var(--text-secondary);
+}
+
+.btn-secondary:hover {
+    background: var(--bg-main);
+    border-color: var(--accent);
+}
+
+.btn-xl {
+    padding: 1.25rem 3rem;
+    font-size: 1.1rem;
+}
+
+.danger-text {
+    color: #e53e3e !important;
+}
+
+/* Utils */
+.hidden {
+    display: none !important;
+}
+
+.fade-in {
+    animation: fadeIn 0.6s ease-out;
+}
+
+@keyframes fadeIn {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.divider {
+    height: 1px;
+    background: var(--border);
+    margin: 2rem 0;
+}
+
+.form-actions {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 1.5rem;
+    margin-top: 4rem;
+    flex-wrap: wrap;
+    /* Para móviles */
+}
+
+/* Modals */
+.modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.5);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+.modal-content {
+    background: white;
+    padding: 3rem;
+    border-radius: 24px;
+    text-align: center;
+    max-width: 450px;
+}
+
+.icon-xl {
+    width: 64px;
+    height: 64px;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+}
+
+/* Responsive Optimizado */
+@media (max-width: 768px) {
+    .container {
+        padding: 0 1rem;
+    }
+
+    /* Ajuste radical de la grilla para móvil */
+    .matrix-header-sticky,
+    .question-row {
+        grid-template-columns: 1fr 120px 120px;
+        /* Pregunta | Pasado | Ahora */
+        gap: 0.5rem;
+        padding: 1rem 0.5rem;
+    }
+
+    /* Cabecera fija móvil */
+    .matrix-header-sticky {
+        display: grid;
+        top: 60px;
+        font-size: 0.7rem;
+        padding: 10px 5px;
+        z-index: 95;
+        border-radius: 0;
+        text-align: center;
+        /* Centrar todo por defecto */
+    }
+
+    .col-category {
+        display: flex;
+        justify-content: center !important;
+        /* Forzar centrado */
+        align-items: center;
+        text-align: center !important;
+        padding-left: 0;
+        width: 100%;
+        /* Ocupar todo el espacio de la celda */
+    }
+
+    /* Asegurar que Pasado y Ahora estén centrados */
+    .col-past,
+    .col-now {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    }
+
+    .question-row {
+        align-items: flex-start;
+        /* Alinear arriba para preguntas largas */
+    }
+
+    .question-text {
+        padding-right: 5px;
+    }
+
+    .category-title {
+        font-size: 0.95rem;
+        /* Letra más pequeña */
+        line-height: 1.3;
+    }
+
+    .question-subtext {
+        font-size: 0.8rem;
+    }
+
+    /* Compactar escalas Likert */
+    .likert-group {
+        padding: 0;
+        gap: 2px;
+    }
+
+    .likert-circle {
+        width: 20px;
+        /* Círculos mucho más pequeños */
+        height: 20px;
+        border-width: 1px;
+    }
+
+    .likert-label {
+        font-size: 0.7rem;
+        /* Números pequeños */
+    }
+
+    /* Estado seleccionado ajustado */
+    .likert-option input:checked+.likert-circle {
+        transform: scale(1.1);
+    }
+
+    .likert-option input:checked+.likert-circle::after {
+        width: 6px;
+        height: 6px;
+    }
+
+    /* Ocultar elementos decorativos en móvil */
+    .survey-intro h1 {
+        font-size: 1.8rem;
+    }
+
+    .app-header {
+        padding: 0.5rem 0;
+        position: relative;
+        /* YA NO ES STICKY EN MÓVIL */
+        top: auto;
+    }
+
+    .user-info-section {
+        gap: 1rem;
+        padding: 1rem;
+    }
+
+    .form-group {
+        display: flex;
+        flex-direction: column;
+        align-items: stretch;
+        gap: 0.5rem;
+    }
+
+    /* Reducir radios en móvil para coincidir con Likert */
+    .radio-option-item input[type="radio"] {
+        width: 20px;
+        height: 20px;
+        border-width: 1px;
+    }
+
+    /* Separador vertical entre Pasado y Ahora */
+    /* Ajuste radical de la grilla para móvil */
+    .matrix-header-sticky,
+    .question-row {
+        /* Aumentamos el gap entre las columnas de Pasado y Ahora */
+        grid-template-columns: 1fr 120px 10px 120px;
+        /* Pregunta | Pasado | Separador | Ahora */
+        gap: 0;
+        padding: 1rem 0.5rem;
+    }
+
+    /* Cabecera fija móvil */
+    .matrix-header-sticky {
+        display: grid;
+        top: 0;
+        /* AHORA SE PEGA ARRIBA DEL TODO AL HACER SCROLL */
+        font-size: 0.7rem;
+        padding: 10px 5px;
+        z-index: 95;
+        border-radius: 0;
+        text-align: center;
+        box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+        /* Añadir sombra para que se note sobre el contenido */
+    }
+
+    .col-past {
+        text-align: center;
+        /* Asegurar texto centrado */
+        justify-content: center;
+        display: flex;
+    }
+
+    /* El separador ahora es su propia "columna" virtual en el grid de 4 cols
+       Pero como no podemos cambiar el HTML fácilmente, usamos pseudo-elemento o border en el elemento correcto.
+       
+       Mejor estrategia: Volver a 3 columnas pero usar Margin/Padding inteligente.
+    */
+    .matrix-header-sticky,
+    .question-row {
+        grid-template-columns: 1fr 125px 125px;
+        grid-gap: 12px;
+        /* Aumentamos gap para separar Pregunta de Pasado */
+        align-items: center;
+        /* Alineación vertical CENTRADA para los círculos */
+    }
+
+    /* Separador vertical perfectamente centrado */
+    .side-past,
+    .col-past {
+        border-right: 2px solid #cbd5e1;
+        padding-right: 24px;
+        margin-right: 0;
+        display: flex;
+        justify-content: center;
+        width: 100%;
+    }
+
+    /* Alineación de CÍRCULOS (side-now) a la izquierda */
+    .side-now {
+        display: flex;
+        justify-content: flex-start;
+        /* Círculos a la izquierda */
+        padding-left: 2px;
+        width: 100%;
+    }
+
+    /* Alineación del TÍTULO (col-now) al centro */
+    .col-now {
+        display: flex;
+        justify-content: center !important;
+        /* Texto AHORA centrado */
+        padding-left: 0;
+        width: 100%;
+    }
+}
+
+/* Ajustes para pantallas MUY pequeñas (iPhone SE, etc) */
+@media (max-width: 380px) {
+
+    .matrix-header-sticky,
+    .question-row {
+        grid-template-columns: 1fr 100px 100px;
+        /* Aún más compacto */
+    }
+
+    .likert-circle {
+        width: 16px;
+        height: 16px;
+    }
+}
+
+/* Ajuste de botones para que quepan en una línea en móvil */
+@media (max-width: 768px) {
+    .form-actions {
+        flex-direction: row !important;
+        /* Asegurar fila */
+        flex-wrap: nowrap !important;
+        /* No permitir salto */
+        gap: 0.5rem;
+        margin-top: 2rem;
+        padding: 0 0.5rem;
+    }
+
+    .form-actions .btn {
+        padding: 0.75rem 0.25rem;
+        justify-content: center;
+        min-width: 0;
+    }
+
+    /* Botón Volver más pequeño */
+    .form-actions .btn-secondary {
+        flex: 1;
+        /* Menos ancho */
+        font-size: 0.75rem;
+    }
+
+    /* Botón Enviar más grande */
+    .form-actions .btn-primary {
+        flex: 2;
+        /* Más ancho */
+        font-size: 0.9rem;
+        font-weight: 700;
+    }
+
+    .form-actions .btn i {
+        display: none;
+        /* Opcional: ocultar iconos si falta espacio, o reducirlos. Mejor reducirlos. */
+    }
+
+    /* Mostrar iconos pero pequeños */
+    .form-actions .btn i {
+        display: inline-block;
+        width: 16px;
+        height: 16px;
+        margin: 0 2px;
+    }
+}

@@ -1,0 +1,261 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Prueba Cuestionario</title>
+    <meta name="description" content="Cuestionario de evaluación comparativa: Ahora vs Pasado">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+    <!-- Lucide Icons -->
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <!-- Supabase Client -->
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="supabase-config.js"></script>
+
+    <!-- CONFIGURACIÓN DE PREGUNTAS Y DESTINO (Accesible directamente en el HTML) -->
+    <script id="data-config">
+        const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxTPy61QLTKF225RGLjq_AkcPLuyIaeFJ8iJUJ1aqcFK3ihQDf6d5uCuEnaPp5ws8Un/exec";
+
+        const DEFAULT_QUESTIONS = [
+            { id: "q_item1", category: "Ítem 1" },
+            { id: "q_item2", category: "Ítem 2" },
+            { id: "q_item3", category: "Ítem 3" },
+            { id: "q_item4", category: "Ítem 4" },
+            { id: "q_item5", category: "Ítem 5" },
+            { id: "q_item6", category: "Ítem 6" },
+            { id: "q_item7", category: "Ítem 7" },
+            { id: "q_item8", category: "Ítem 8" },
+            { id: "q_item9", category: "Ítem 9" },
+            { id: "q_item10", category: "Ítem 10" },
+            { id: "q_item11", category: "Ítem 11" },
+            { id: "q_item12", category: "Ítem 12" },
+            { id: "q_item13", category: "Ítem 13" },
+            { id: "q_item14", category: "Ítem 14" },
+            { id: "q_item15", category: "Ítem 15" },
+        ];
+    </script>
+
+</head>
+
+<body>
+    <div id="app">
+        <!-- Main Navigation / Header -->
+        <header class="app-header">
+            <div class="container">
+                <div class="logo">
+                    <i data-lucide="layers" class="icon-logo"></i>
+                    <span>Cuestionario IAG </span>
+                </div>
+                <div class="header-actions">
+                    <div class="status-indicator">
+                        <span id="save-status">
+                            <i data-lucide="check-circle" class="icon-small"></i> Guardado automáticamente
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </header>
+
+        <!-- Main Content -->
+        <main class="container">
+            <!-- Cuestionario Principal -->
+            <section id="questionnaire" class="questionnaire-section fade-in">
+                <div class="survey-intro">
+                    <h1>Prueba Cuestionario</h1>
+                    <p>Reflexione sobre su situación en cada categoría comparando su estado en el <b>Pasado</b> con su
+                        estado <b>Ahora</b>.</p>
+                </div>
+
+                <form id="matrix-form">
+                    <div id="section-1" class="user-info-section">
+                        <!-- Tarjeta 1: Nombre -->
+                        <div class="info-card">
+                            <div class="form-group">
+                                <label for="user-name">Nombre</label>
+                                <input type="text" id="user-name" placeholder="Escribe tu nombre..." required>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 2: Género -->
+                        <div class="info-card">
+                            <div class="form-group">
+                                <label for="user-profile">Género</label>
+                                <select id="user-profile">
+                                    <option value="" disabled selected>-- Selecciona una opción --</option>
+                                    <option value="Hombre">Hombre</option>
+                                    <option value="Mujer">Mujer</option>
+                                </select>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 3: Tiempo IAG -->
+                        <div class="info-card">
+                            <div class="form-group-vertical">
+                                <label class="question-label">Pregunta 1</label>
+                                <div class="radio-list">
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="time_using_ai" value="Respuesta 1">
+                                        <span>Respuesta 1</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="time_using_ai" value="Respuesta 2">
+                                        <span>Respuesta 2</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="time_using_ai" value="Respuesta 3">
+                                        <span>Respuesta 3</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="time_using_ai" value="Respuesta 4">
+                                        <span>Respuesta 4</span>
+                                    </label>
+                                </div>
+                            </div>
+
+                        </div>
+
+                        <!-- Tarjeta 4: Frecuencia IAG -->
+                        <div class="info-card">
+                            <div class="form-group-vertical">
+                                <label class="question-label">Pregunta 2</label>
+                                <div class="radio-list">
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="frequency_using_ai" value="Respuesta 1">
+                                        <span>Respuesta 1</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="frequency_using_ai" value="Respuesta 2">
+                                        <span>Respuesta 2</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="frequency_using_ai" value="Respuesta 3">
+                                        <span>Respuesta 3</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="frequency_using_ai" value="Respuesta 4">
+                                        <span>Respuesta 4</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Tarjeta 4: Pregunta 3 -->
+                        <div class="info-card">
+                            <div class="form-group-vertical">
+                                <label class="question-label">Pregunta 3</label>
+                                <div class="radio-list">
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="cuarta_using_ai" value="Respuesta 1">
+                                        <span>Respuesta 1</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="cuarta_using_ai" value="Respuesta 2">
+                                        <span>Respuesta 2</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="cuarta_using_ai" value="Respuesta 3">
+                                        <span>Respuesta 3</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="cuarta_using_ai" value="Respuesta 4">
+                                        <span>Respuesta 4</span>
+                                    </label>
+                                    <label class="radio-option-item">
+                                        <input type="radio" name="cuarta_using_ai" value="Respuesta 5">
+                                        <span>Respuesta 5</span>
+                                    </label>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="form-actions" style="margin-top: 0; text-align: center;">
+                            <button type="button" class="btn btn-primary btn-xl" onclick="validateAndNext()">
+                                <span>Siguiente</span>
+                                <i data-lucide="arrow-right"></i>
+                            </button>
+                        </div>
+                    </div>
+
+                    <div id="section-2" class="hidden fade-in">
+
+                        <div class="matrix-header-sticky">
+                            <div class="col-category">PREGUNTA</div>
+                            <div class="col-past">PASADO</div>
+                            <div class="col-now">AHORA</div>
+                        </div>
+
+                        <!-- ESTE CONTENEDOR ES DONDE SE RENDERIZAN LAS PREGUNTAS -->
+                        <div id="questions-container">
+                            <!-- Las filas de preguntas se generan dinámicamente o se definen aquí -->
+                            <!-- Para mayor robustez, las definimos estáticamente sincronizadas con DEFAULT_QUESTIONS -->
+
+                            <script>
+                                // Función auxiliar para generar el HTML de una fila de Likert
+                                function generateLikertRow(id, title) {
+                                    let html = `
+                                <div class="question-row" data-id="${id}">
+                                    <div class="question-text">
+                                        <span class="category-title">${title}</span>
+                                    </div>
+                                    <div class="side-past">
+                                        <div class="likert-group">`;
+                                    for (let i = 1; i <= 5; i++) {
+                                        html += `
+                                            <label class="likert-option">
+                                                <input type="radio" name="past_${id}" value="${i}" onchange="saveResponse('past_${id}', ${i})">
+                                                <div class="likert-circle"></div><span class="likert-label">${i}</span>
+                                            </label>`;
+                                    }
+                                    html += `</div></div><div class="side-now"><div class="likert-group">`;
+                                    for (let i = 1; i <= 5; i++) {
+                                        html += `
+                                            <label class="likert-option">
+                                                <input type="radio" name="now_${id}" value="${i}" onchange="saveResponse('now_${id}', ${i})">
+                                                <div class="likert-circle"></div><span class="likert-label">${i}</span>
+                                            </label>`;
+                                    }
+                                    html += `</div></div></div>`;
+                                    return html;
+                                }
+
+                                // Escribimos las preguntas iniciales para que el DOM esté listo antes de que app.js actue
+                                document.write(
+                                    DEFAULT_QUESTIONS.map(q => generateLikertRow(q.id, q.category)).join('')
+                                );
+                            </script>
+                        </div>
+
+                        <div class="form-actions">
+                            <button type="button" class="btn btn-secondary btn-xl" onclick="prevSection()">
+                                <i data-lucide="arrow-left"></i> <span>Volver</span>
+                            </button>
+                            <button type="submit" id="submit-btn" class="btn btn-primary btn-xl">
+                                <span>Enviar Cuestionario</span>
+                                <i data-lucide="send" class="icon-right"></i>
+                            </button>
+                        </div>
+                    </div> <!-- Fin Section 2 -->
+                </form>
+            </section>
+        </main>
+
+        <!-- Modales -->
+        <div id="modal-success" class="modal-overlay hidden">
+            <div class="modal-content">
+                <i data-lucide="party-popper" class="icon-xl"></i>
+                <h2>¡Cuestionario enviado!</h2>
+                <p>El cuestionario ha sido enviado correctamente. ¡Muchas gracias por tu participación!</p>
+                <button class="btn btn-secondary" onclick="location.reload()">Enviar otra respuesta </button>
+            </div>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+    <script>if (window.lucidee.createIcons();</script>
+</body>
+
+</html>
