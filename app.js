@@ -69,25 +69,68 @@ function renderQuestions() {
                     `).join('')}
                 </div>
             </div>
-
-            <div class="side-now">
-                <div class="likert-group">
-                    ${[1, 2, 3, 4, 5].map(val => `
-                        <label class="likert-option">
-                            <input type="radio" name="now_${q.id}" value="${val}" 
-                                ${responses[`now_${q.id}`] == val ? 'checked' : ''} 
-                                onchange="saveResponse('now_${q.id}', ${val})">
-                            <div class="likert-circle"></div>
-                            <span class="likert-label">${val}</span>
-                        </label>
-                    `).join('')}
-                </div>
-            </div>
         </div>
     `).join('');
 
     if (window.lucide) lucide.createIcons();
+
+    // Restaurar inputs de la Sección 1
+    restoreSection1Inputs();
 }
+
+// Persistencia de inputs de la Sección 1
+function restoreSection1Inputs() {
+    const inputs = {
+        'user-name': 'value',
+        'user-profile': 'value'
+    };
+
+    for (let id in inputs) {
+        const val = localStorage.getItem(`input_${id}`);
+        if (val) document.getElementById(id).value = val;
+    }
+
+    // Radios y Checkboxes
+    const names = ['time_using_ai', 'frequency_using_ai', 'ai_usage'];
+    // Herramientas IA
+    const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm', 'otras'];
+    tools.forEach(t => names.push(`freq_${t}`));
+
+    names.forEach(name => {
+        const saved = localStorage.getItem(`input_${name}`);
+        if (saved) {
+            const values = saved.split('|||');
+            values.forEach(v => {
+                const input = document.querySelector(`input[name="${name}"][value="${v}"]`);
+                if (input) input.checked = true;
+            });
+        }
+    });
+}
+
+// Listener global para guardar cambios en tiempo real
+document.addEventListener('change', (e) => {
+    const el = e.target;
+    if (el.id === 'user-name' || el.id === 'user-profile') {
+        localStorage.setItem(`input_${el.id}`, el.value);
+    } else if (el.name) {
+        // Para radios y checkboxes del mismo name
+        if (el.type === 'radio') {
+            localStorage.setItem(`input_${el.name}`, el.value);
+        } else if (el.type === 'checkbox') {
+            const checked = Array.from(document.querySelectorAll(`input[name="${el.name}"]:checked`))
+                .map(i => i.value);
+            localStorage.setItem(`input_${el.name}`, checked.join('|||'));
+        }
+    }
+});
+
+// Listener para el input de texto Nombre (keyup para mayor fluidez)
+document.addEventListener('keyup', (e) => {
+    if (e.target.id === 'user-name') {
+        localStorage.setItem(`input_user-name`, e.target.value);
+    }
+});
 
 // 5. Gestión de Respuestas
 window.saveResponse = function (key, value) {
@@ -115,6 +158,7 @@ window.validateAndNext = function () {
     const userProfile = document.getElementById('user-profile').value;
     const timeUsingAi = document.querySelector('input[name="time_using_ai"]:checked');
     const freqUsingAi = document.querySelector('input[name="frequency_using_ai"]:checked');
+    const aiUsage = document.querySelectorAll('input[name="ai_usage"]:checked');
 
     if (!userName) {
         alert('Por favor, escribe tu nombre.');
@@ -133,6 +177,20 @@ window.validateAndNext = function () {
     if (!freqUsingAi) {
         alert('Por favor, indica con qué frecuencia utilizas la IAG.');
         return;
+    }
+    if (aiUsage.length === 0) {
+        alert('Por favor, indica para qué usas la IA (puedes marcar varias opciones).');
+        return;
+    }
+
+    // Validar matriz de frecuencia
+    const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm', 'otras'];
+    for (const tool of tools) {
+        const selected = document.querySelector(`input[name="freq_${tool}"]:checked`);
+        if (!selected) {
+            alert(`Por favor, selecciona la frecuencia para la herramienta: ${tool.charAt(0).toUpperCase() + tool.slice(1)}`);
+            return;
+        }
     }
 
     // Si todo es válido, cambiar de sección
@@ -162,7 +220,7 @@ if (mainForm) {
         const transactionId = `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         console.log(`📝 [${transactionId}] Evento submit capturado. Validando...`);
 
-        const required = QUESTIONS.flatMap(q => [`past_${q.id}`, `now_${q.id}`]);
+        const required = QUESTIONS.flatMap(q => [`past_${q.id}`]);
         const missing = required.filter(k => !responses[k]);
 
         if (missing.length > 0) {
@@ -185,6 +243,10 @@ if (mainForm) {
         const freqUsingAiInput = document.querySelector('input[name="frequency_using_ai"]:checked');
         const freqUsingAi = freqUsingAiInput ? freqUsingAiInput.value : "";
 
+        // Capturar usos de IA (Multiselección)
+        const aiUsageNodes = document.querySelectorAll('input[name="ai_usage"]:checked');
+        const aiUsage = Array.from(aiUsageNodes).map(n => n.value).join(', ');
+
         if (!userName && userNameInput) {
             alert('Por favor, introduce tu nombre.');
             return;
@@ -196,22 +258,34 @@ if (mainForm) {
         btn.innerHTML = '<span>Guardando...</span>';
         console.log(`🔒 [${transactionId}] Botón desactivado y flag isSubmitting = true`);
 
-        // Construir payload
+        // Construir payload en el ORDEN EXACTO del cuestionario
         const payload = {
             "Fecha": new Date().toLocaleString(),
-            "Usuario": userName,
-            "Perfil": userProfile,
-            "Tiempo Uso IAG": timeUsingAi,
-            "Frecuencia Uso IAG": freqUsingAi
+            "Nombre": userName,
+            "Género": userProfile,
+            "¿Cuánto tiempo llevas utilizando la IAG?": timeUsingAi,
+            "¿Con qué frecuencia usas la IAG?": freqUsingAi
         };
 
-        QUESTIONS.forEach(q => {
+        // 1. Matriz de frecuencia de herramientas (en orden)
+        const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm', 'otras'];
+        tools.forEach(tool => {
+            const val = document.querySelector(`input[name="freq_${tool}"]:checked`);
+            if (val) {
+                // Nombre amigable para la exportación
+                const toolName = tool === 'dalle' ? 'Dall-e' : tool.charAt(0).toUpperCase() + tool.slice(1);
+                payload[`Frecuencia_${toolName}`] = val.value;
+            }
+        });
+
+        // 2. ¿Para qué usas la IA? (Multiselección)
+        payload["¿Para qué usas la IA?"] = aiUsage;
+
+        // 3. Items de valoración (1-55) con nombres completos (Para Sheets y Supabase)
+        QUESTIONS.forEach((q) => {
             const pv = responses[`past_${q.id}`];
-            const nv = responses[`now_${q.id}`];
-            if (pv !== undefined && nv !== undefined) {
-                payload[`${q.category} (Pasado)`] = pv;
-                payload[`${q.category} (Ahora)`] = nv;
-                payload[`${q.category} (Diferencia)`] = nv - pv;
+            if (pv !== undefined) {
+                payload[`${q.category}`] = pv;
             }
         });
 
@@ -300,11 +374,23 @@ if (mainForm) {
                 const modal = document.getElementById('modal-success');
                 if (modal) modal.classList.remove('hidden');
 
-                // Limpieza
+                // Limpieza profunda de persistencia
                 localStorage.removeItem('survey_responses');
                 responses = {};
+
+                // Eliminar todos los inputs guardados de la Sección 1
+                Object.keys(localStorage).forEach(key => {
+                    if (key.startsWith('input_')) {
+                        localStorage.removeItem(key);
+                    }
+                });
+
+                // Limpiar UI
                 if (userNameInput) userNameInput.value = "";
-                document.querySelectorAll('input[type="radio"]').forEach(r => r.checked = false);
+                const userProfileSelect = document.getElementById('user-profile');
+                if (userProfileSelect) userProfileSelect.selectedIndex = 0;
+
+                document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(r => r.checked = false);
 
                 // RESETEAR FLAG para permitir nuevos envíos
                 isSubmitting = false;
@@ -430,4 +516,3 @@ if (document.readyState === 'loading') {
 } else {
     startup();
 }
-
