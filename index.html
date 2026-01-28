@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Prueba Cuestionario</title>
+    <title>Cuestionario IAG</title>
     <meta name="description" content="Cuestionario de evaluación comparativa: Ahora vs Pasado">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -21,21 +21,61 @@
         const WEBHOOK_URL = "https://script.google.com/macros/s/AKfycbxTPy61QLTKF225RGLjq_AkcPLuyIaeFJ8iJUJ1aqcFK3ihQDf6d5uCuEnaPp5ws8Un/exec";
 
         const DEFAULT_QUESTIONS = [
-            { id: "q_item1", category: "Ítem 1" },
-            { id: "q_item2", category: "Ítem 2" },
-            { id: "q_item3", category: "Ítem 3" },
-            { id: "q_item4", category: "Ítem 4" },
-            { id: "q_item5", category: "Ítem 5" },
-            { id: "q_item6", category: "Ítem 6" },
-            { id: "q_item7", category: "Ítem 7" },
-            { id: "q_item8", category: "Ítem 8" },
-            { id: "q_item9", category: "Ítem 9" },
-            { id: "q_item10", category: "Ítem 10" },
-            { id: "q_item11", category: "Ítem 11" },
-            { id: "q_item12", category: "Ítem 12" },
-            { id: "q_item13", category: "Ítem 13" },
-            { id: "q_item14", category: "Ítem 14" },
-            { id: "q_item15", category: "Ítem 15" },
+            { id: "q_item1", category: "1. Considero que aprender habilidades relacionadas con IA mejora mi desarrollo personal." },
+            { id: "q_item2", category: "2. Me resulta muy interesante el proceso de aprender habilidades de IA." },
+            { id: "q_item3", category: "3. Creo que aprender habilidades de IA enriquece mis competencias." },
+            { id: "q_item4", category: "4. Considero desafiante el proceso de aprender habilidades de IA." },
+            { id: "q_item5", category: "5. Pienso que aprender habilidades de IA me reportará muchos beneficios." },
+            { id: "q_item6", category: "6. Aprender habilidades de IA me ayuda a desarrollar mi potencial." },
+            { id: "q_item7", category: "7. Aprender habilidades de IA contribuye a mi crecimiento personal." },
+            { id: "q_item8", category: "8. Aprender habilidades de IA puede aumentar mi ventaja para encontrar empleo." },
+            { id: "q_item9", category: "9. Aprender habilidades de IA puede ayudarme a conservar mi empleo en el futuro." },
+            { id: "q_item10", category: "10. Aprender habilidades de IA puede ayudarme a lograr un salario más alto." },
+            { id: "q_item11", category: "11. Tras aprender habilidades de IA, mis opiniones recibirán más atención en el equipo." },
+            { id: "q_item12", category: "12. Aprender habilidades de IA mejora la opinión que otros tienen de mí." },
+            { id: "q_item13", category: "13. Mi desempeño sobresaliente en el aprendizaje de habilidades de IA será reconocido." },
+            { id: "q_item14", category: "14. En general, aprender habilidades de IA es muy útil para alcanzar mis metas." },
+            { id: "q_item15", category: "15. Me considero capaz de desempeñar tareas relacionadas con la inteligencia artificial." },
+            { id: "q_item16", category: "16. Me veo capaz de ejecutar con éxito proyectos relacionados con la inteligencia artificial." },
+            { id: "q_item17", category: "17. Me percibo capaz de dominar los conocimientos y habilidades relacionados con la inteligencia artificial." },
+            { id: "q_item18", category: "18. Me considero capaz de obtener buenos resultados en evaluaciones relacionadas con la inteligencia artificial." },
+            { id: "q_item19", category: "19. Establezco criterios de calidad para mis tareas de aprendizaje." },
+            { id: "q_item20", category: "20. Mantengo un alto nivel de exigencia en mi aprendizaje." },
+            { id: "q_item21", category: "21. Fijo metas que me ayudan a gestionar el tiempo de estudio." },
+            { id: "q_item22", category: "22. Replanteo la pregunta a la IA generativa cuando no responde adecuadamente a la inicial." },
+            { id: "q_item23", category: "23. Ajusto el contenido generado por la IA generativa cuando no resulta satisfactorio." },
+            { id: "q_item24", category: "24. Adapto el momento y la forma de uso de la IA generativa según la dificultad del contenido." },
+            { id: "q_item25", category: "25. Reviso el diálogo con la IA generativa y reflexiono sobre la calidad de la interacción." },
+            { id: "q_item26", category: "26. Reflexiono sobre lo que hice bien y lo que no durante el proceso de aprendizaje." },
+            { id: "q_item27", category: "27. Reflexiono sobre mis conductas de aprendizaje para ver si podría haber hecho algo mejor." },
+            { id: "q_item28", category: "28. Repaso lo que he aprendido con la IA generativa y lo re evalúo." },
+            { id: "q_item29", category: "29. Selecciono la estrategia de prompt para interactuar con la IA generativa según mi propio criterio." },
+            { id: "q_item30", category: "30. Decido qué preguntas formular a la IA según mi criterio." },
+            { id: "q_item31", category: "31. Determino cuándo interactuar con la IA según mi criterio." },
+            { id: "q_item32", category: "32. Elijo la forma de completar las tareas de aprendizaje según mi criterio." },
+            { id: "q_item33", category: "33. Evito el uso indebido de la IA generativa." },
+            { id: "q_item34", category: "34. Asumo activamente la responsabilidad de mi aprendizaje y no dejo que la IA reemplace mi esfuerzo." },
+            { id: "q_item35", category: "35. Soy cuidadoso/a con temas de seguridad y privacidad de la información." },
+            { id: "q_item36", category: "36. Mantengo valores correctos y permanezco alerta ante cuestiones éticas como sesgos raciales y discriminación de género." },
+            { id: "q_item37", category: "37. Introduzco prompts detallados en herramientas de IA generativa para acceder al contenido que necesito." },
+            { id: "q_item38", category: "38. Mejoro prompts que utilizo en herramientas de IA generativa para alcanzar el contenido que necesito." },
+            { id: "q_item39", category: "39. Detecto deficiencias en mis prompts a partir del contenido generado por la IA generativa." },
+            { id: "q_item40", category: "40. Creo prompts que hacen que el contenido generado por la IA generativa sea más significativo." },
+            { id: "q_item41", category: "41. Adapto prompts a distintas herramientas de IA generativa para obtener el contenido que necesito." },
+            { id: "q_item42", category: "42. Evalúo los riesgos importantes que puede suponer para las personas el uso indebido de la inteligencia artificial." },
+            { id: "q_item43", category: "43. Someto los sistemas de inteligencia artificial a pruebas rigurosas para garantizar su correcto funcionamiento." },
+            { id: "q_item44", category: "44. Asumo la responsabilidad de considerar el diseño y los procesos de decisión de la inteligencia artificial en su uso." },
+            { id: "q_item45", category: "45. Garantizo que los sistemas de inteligencia artificial beneficien a todas las personas, independientemente de sus condiciones físicas o de género." },
+            { id: "q_item46", category: "46. Exijo la rendición de cuentas por el uso que se hace de los sistemas de inteligencia artificial." },
+            { id: "q_item47", category: "47. Verifico que los sistemas de inteligencia artificial cumplen los estándares éticos y legales." },
+            { id: "q_item48", category: "48. Aplico la inteligencia artificial para apoyar a personas desfavorecidas." },
+            { id: "q_item49", category: "49. Cuestiono el contenido generado por la IA generativa." },
+            { id: "q_item50", category: "50. Analizo la precisión del contenido presentado por la IA generativa." },
+            { id: "q_item51", category: "51. Infiero conclusiones lógicas sobre los sesgos presentes en el contenido generado por la IA generativa." },
+            { id: "q_item52", category: "52. Contrasto el contenido presentado por la IA generativa con otras fuentes para evaluar su exactitud." },
+            { id: "q_item53", category: "53. Evalúo la objetividad del contenido presentado por la IA generativa mediante la consulta de otras fuentes." },
+            { id: "q_item54", category: "54. Distingo si el contenido presentado por la IA generativa corresponde a conocimiento científico o a una opinión subjetiva." },
+            { id: "q_item55", category: "55. Verifico la precisión del contenido generado por la IA generativa antes de utilizarlo." },
         ];
     </script>
 
@@ -65,7 +105,7 @@
             <!-- Cuestionario Principal -->
             <section id="questionnaire" class="questionnaire-section fade-in">
                 <div class="survey-intro">
-                    <h1>Prueba Cuestionario</h1>
+                    <h1>Cuestionario sobre inteligencia artificial</h1>
                     <p>Reflexione sobre su situación en cada categoría comparando su estado en el <b>Pasado</b> con su
                         estado <b>Ahora</b>.</p>
                 </div>
@@ -351,39 +391,38 @@
                                 <label class="question-label">¿Para qué usas la IA?</label>
                                 <div class="radio-list">
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai" value="Para estudiar">
+                                        <input type="checkbox" name="ai_usage" value="Para estudiar">
                                         <span>Para estudiar</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai"
+                                        <input type="checkbox" name="ai_usage"
                                             value="Para hacer trabajos o tareas de la universidad">
                                         <span>Para hacer trabajos o tareas de la universidad</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai"
+                                        <input type="checkbox" name="ai_usage"
                                             value="Para organizar viajes o actividades">
                                         <span>Para organizar viajes o actividades</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai" value="Para resolver dudas rápidas">
+                                        <input type="checkbox" name="ai_usage" value="Para resolver dudas rápidas">
                                         <span>Para resolver dudas rápidas</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai"
+                                        <input type="checkbox" name="ai_usage"
                                             value="Para crear imágenes o contenido creativo">
                                         <span>Para crear imágenes o contenido creativo</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai"
-                                            value="Para redactar correos o textos">
+                                        <input type="checkbox" name="ai_usage" value="Para redactar correos o textos">
                                         <span>Para redactar correos o textos</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai" value="Para aprender cosas nuevas">
+                                        <input type="checkbox" name="ai_usage" value="Para aprender cosas nuevas">
                                         <span>Para aprender cosas nuevas</span>
                                     </label>
                                     <label class="radio-option-item">
-                                        <input type="radio" name="cuarta_using_ai" value="Para ocio o entretenimiento">
+                                        <input type="checkbox" name="ai_usage" value="Para ocio o entretenimiento">
                                         <span>Para ocio o entretenimiento</span>
                                     </label>
                                 </div>
@@ -397,13 +436,11 @@
                             </button>
                         </div>
                     </div>
-
                     <div id="section-2" class="hidden fade-in">
 
                         <div class="matrix-header-sticky">
                             <div class="col-category">PREGUNTA</div>
-                            <div class="col-past">PASADO</div>
-                            <div class="col-now">AHORA</div>
+                            <div class="col-past">VALORACIÓN</div>
                         </div>
 
                         <!-- ESTE CONTENEDOR ES DONDE SE RENDERIZAN LAS PREGUNTAS -->
@@ -425,14 +462,6 @@
                                         html += `
                                             <label class="likert-option">
                                                 <input type="radio" name="past_${id}" value="${i}" onchange="saveResponse('past_${id}', ${i})">
-                                                <div class="likert-circle"></div><span class="likert-label">${i}</span>
-                                            </label>`;
-                                    }
-                                    html += `</div></div><div class="side-now"><div class="likert-group">`;
-                                    for (let i = 1; i <= 5; i++) {
-                                        html += `
-                                            <label class="likert-option">
-                                                <input type="radio" name="now_${id}" value="${i}" onchange="saveResponse('now_${id}', ${i})">
                                                 <div class="likert-circle"></div><span class="likert-label">${i}</span>
                                             </label>`;
                                     }
