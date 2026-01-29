@@ -353,6 +353,34 @@ body {
     grid-template-columns: repeat(4, 1fr);
 }
 
+.input-otras {
+    width: 100%;
+    grid-column: span 4;
+    /* Ocupa las 4 columnas de la matriz */
+    padding: 1rem 1.25rem;
+    /* Un poco más de altura */
+    border: 1.5px solid var(--border);
+    border-radius: 12px;
+    font-family: inherit;
+    font-size: 0.95rem;
+    color: var(--text-primary);
+    background-color: #fcfdfe;
+    transition: all 0.3s ease;
+    outline: none;
+    margin: 5px 0;
+}
+
+.input-otras:focus {
+    border-color: var(--accent);
+    background-color: #fff;
+    box-shadow: 0 0 0 4px var(--accent-light);
+}
+
+.input-otras::placeholder {
+    color: #94a3b8;
+    font-style: italic;
+}
+
 .cell-option-mobile {
     display: flex;
     justify-content: center;
