@@ -437,31 +437,69 @@ body {
 
     .freq-row {
         grid-template-columns: 1fr;
+        border-bottom: none;
+        margin-bottom: 1rem;
     }
 
     .cell-label {
         background: #f1f5f9;
-        padding: 0.75rem 1rem;
-        font-size: 1.1rem;
+        /* Color de fondo sutil para el encabezado de herramienta */
+        padding: 0.85rem 1.25rem;
+        font-size: 1.25rem;
+        font-weight: 800;
+        color: var(--text-primary);
         border-bottom: 1px solid var(--border);
+        border-radius: 12px 12px 0 0;
     }
 
     .options-group {
         grid-template-columns: 1fr;
-        padding: 0.5rem 0;
+        padding: 0;
+        background: white;
+        border: 1px solid var(--border);
+        border-top: none;
+        border-radius: 0 0 12px 12px;
+        margin-bottom: 12px;
+        justify-content: flext-start;
+        display: flex;
+        align-items: flex-start;
+        width: 100%;
+        flex-direction: column;
     }
 
     .cell-option-mobile {
         justify-content: flex-start;
-        gap: 1rem;
-        padding: 0.75rem 1.5rem;
+        gap: 1.25rem;
+        padding: 1rem 1.5rem;
+        border-bottom: 1px solid #f1f5f9;
+    }
+
+    .cell-option-mobile:last-child {
+        border-bottom: none;
     }
 
     .opt-text {
         display: inline;
-        font-size: 1rem;
-        font-weight: 400;
-        color: var(--text-secondary);
+        font-size: 1.1rem;
+        font-weight: 500;
+        color: #000000;
+    }
+
+    /* Estilo del radio button para móvil coincidente con la imagen */
+    .cell-option-mobile input[type="radio"] {
+        width: 38px;
+        height: 38px;
+        border: 1px solid #70757a;
+    }
+
+    .cell-option-mobile input[type="radio"]:checked {
+        border-color: var(--accent);
+    }
+
+    .cell-option-mobile input[type="radio"]:checked::after {
+        width: 22px;
+        height: 22px;
+        background-color: var(--accent);
     }
 }
 
