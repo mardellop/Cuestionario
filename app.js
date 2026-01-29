@@ -82,7 +82,8 @@ function renderQuestions() {
 function restoreSection1Inputs() {
     const inputs = {
         'user-name': 'value',
-        'user-profile': 'value'
+        'user-profile': 'value',
+        'freq_otras': 'value'
     };
 
     for (let id in inputs) {
@@ -129,6 +130,8 @@ document.addEventListener('change', (e) => {
 document.addEventListener('keyup', (e) => {
     if (e.target.id === 'user-name') {
         localStorage.setItem(`input_user-name`, e.target.value);
+    } else if (e.target.id === 'freq_otras') {
+        localStorage.setItem(`input_freq_otras`, e.target.value);
     }
 });
 
@@ -183,8 +186,8 @@ window.validateAndNext = function () {
         return;
     }
 
-    // Validar matriz de frecuencia
-    const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm', 'otras'];
+    // Validar matriz de frecuencia (Excepto "otras" que es opcional)
+    const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm'];
     for (const tool of tools) {
         const selected = document.querySelector(`input[name="freq_${tool}"]:checked`);
         if (!selected) {
@@ -268,15 +271,20 @@ if (mainForm) {
         };
 
         // 1. Matriz de frecuencia de herramientas (en orden)
-        const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm', 'otras'];
+        const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm'];
         tools.forEach(tool => {
             const val = document.querySelector(`input[name="freq_${tool}"]:checked`);
             if (val) {
-                // Nombre amigable para la exportación
                 const toolName = tool === 'dalle' ? 'Dall-e' : tool.charAt(0).toUpperCase() + tool.slice(1);
                 payload[`Frecuencia_${toolName}`] = val.value;
             }
         });
+
+        // 1.1 Manejo especial para "Otras" (Campo de texto)
+        const otrasVal = document.getElementById('freq_otras')?.value;
+        if (otrasVal) {
+            payload[`Frecuencia_Otras`] = otrasVal;
+        }
 
         // 2. ¿Para qué usas la IA? (Multiselección)
         payload["¿Para qué usas la IA?"] = aiUsage;
@@ -319,7 +327,8 @@ if (mainForm) {
             // PASO 3: Enviar a Google Sheets (con reintentos)
             if (webhook) {
                 btn.innerHTML = '<span>Enviando cuestionario...</span>';
-                console.log(`📤 [${transactionId}] Iniciando envío a Google Sheets...`);
+                // El webhook de Google Apps Script ahora gestiona tanto la hoja de cálculo como el envío del email con el adjunto .txt
+                console.log(`📤 [${transactionId}] Iniciando envío a Google Sheets y Backup Gmail...`);
 
                 const maxRetries = 3;
                 let retryCount = 0;
@@ -387,6 +396,9 @@ if (mainForm) {
 
                 // Limpiar UI
                 if (userNameInput) userNameInput.value = "";
+                const otrasInput = document.getElementById('freq_otras');
+                if (otrasInput) otrasInput.value = "";
+
                 const userProfileSelect = document.getElementById('user-profile');
                 if (userProfileSelect) userProfileSelect.selectedIndex = 0;
 
