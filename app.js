@@ -379,7 +379,7 @@ if (mainForm) {
 
             // PASO 3: Enviar a Google Sheets (con reintentos)
             if (webhook) {
-                btn.innerHTML = '<span>Enviando cuestionario...</span>';
+                btn.innerHTML = '<span>Enviando cuestionario... (esto puede tardar un poco)</span>';
                 // El webhook de Google Apps Script ahora gestiona tanto la hoja de cálculo como el envío del email con el adjunto .txt
                 console.log(`📤 [${transactionId}] Iniciando envío a Google Sheets y Backup Gmail...`);
 
@@ -582,3 +582,4 @@ if (document.readyState === 'loading') {
 } else {
     startup();
 }
+
