@@ -82,6 +82,7 @@ function renderQuestions() {
 function restoreSection1Inputs() {
     const inputs = {
         'user-name': 'value',
+        'user-surname': 'value',
         'user-profile': 'value',
         'freq_otras': 'value'
     };
@@ -112,7 +113,7 @@ function restoreSection1Inputs() {
 // Listener global para guardar cambios en tiempo real
 document.addEventListener('change', (e) => {
     const el = e.target;
-    if (el.id === 'user-name' || el.id === 'user-profile') {
+    if (el.id === 'user-name' || el.id === 'user-surname' || el.id === 'user-profile') {
         localStorage.setItem(`input_${el.id}`, el.value);
     } else if (el.name) {
         // Para radios y checkboxes del mismo name
@@ -130,6 +131,8 @@ document.addEventListener('change', (e) => {
 document.addEventListener('keyup', (e) => {
     if (e.target.id === 'user-name') {
         localStorage.setItem(`input_user-name`, e.target.value);
+    } else if (e.target.id === 'user-surname') {
+        localStorage.setItem(`input_user-surname`, e.target.value);
     } else if (e.target.id === 'freq_otras') {
         localStorage.setItem(`input_freq_otras`, e.target.value);
     }
@@ -155,24 +158,47 @@ window.saveResponse = function (key, value) {
 // Flag global para prevenir envíos duplicados
 let isSubmitting = false;
 
+// Función para reiniciar el cuestionario sin recargar la página
+window.resetSurvey = function () {
+    // 1. Ocultar modal de éxito
+    const modal = document.getElementById('modal-success');
+    if (modal) modal.classList.add('hidden');
+
+    // 2. Limpiar todos los datos en memoria y localStorage
+    localStorage.removeItem('survey_responses');
+    responses = {};
+
+    // Limpiar inputs visuales (Sección 1/3)
+    document.getElementById('matrix-form').reset();
+
+    // 3. Volver a la Sección 1 y ocultar las demás
+    document.getElementById('section-1').classList.remove('hidden');
+    document.getElementById('section-2').classList.add('hidden');
+    document.getElementById('section-3').classList.add('hidden');
+
+    // 4. Asegurar que volvemos arriba de todo para ver el título y el disclaimer
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+
+    // 5. Reiniciar flag de envío
+    isSubmitting = false;
+    const btn = document.getElementById('submit-btn');
+    if (btn) {
+        btn.disabled = false;
+        btn.innerHTML = '<span>Enviar Cuestionario</span><i data-lucide="send" class="icon-right"></i>';
+    }
+
+    // Re-iniciar iconos si es necesario
+    if (window.lucide) lucide.createIcons();
+
+    console.log("♻️ Cuestionario reseteado correctamente.");
+};
+
 // Función para navegar entre secciones
 window.validateAndNext = function () {
-    const userName = document.getElementById('user-name').value.trim();
-    const userProfile = document.getElementById('user-profile').value;
     const timeUsingAi = document.querySelector('input[name="time_using_ai"]:checked');
     const freqUsingAi = document.querySelector('input[name="frequency_using_ai"]:checked');
     const aiUsage = document.querySelectorAll('input[name="ai_usage"]:checked');
 
-    if (!userName) {
-        alert('Por favor, escribe tu nombre.');
-        document.getElementById('user-name').focus();
-        return;
-    }
-    if (!userProfile) {
-        alert('Por favor, selecciona tu género.');
-        document.getElementById('user-profile').focus();
-        return;
-    }
     if (!timeUsingAi) {
         alert('Por favor, indica cuánto tiempo llevas utilizando la IAG.');
         return;
@@ -196,15 +222,37 @@ window.validateAndNext = function () {
         }
     }
 
-    // Si todo es válido, cambiar de sección
+    // Si todo es válido, cambiar de sección 1 -> 2
     document.getElementById('section-1').classList.add('hidden');
     document.getElementById('section-2').classList.remove('hidden');
-    window.scrollTo(0, 0); // Scroll al inicio para ver las preguntas
+    window.scrollTo(0, 0);
 };
 
 window.prevSection = function () {
     document.getElementById('section-2').classList.add('hidden');
     document.getElementById('section-1').classList.remove('hidden');
+    window.scrollTo(0, 0);
+};
+
+window.validateSection2AndNext = function () {
+    const required = QUESTIONS.flatMap(q => [`past_${q.id}`]);
+    const missing = required.filter(k => !responses[k]);
+
+    if (missing.length > 0) {
+        alert('Por favor, selecciona una valoración para todas las categorías antes de continuar.');
+        // Opcional: podrías hacer scroll al primer elemento faltante
+        return;
+    }
+
+    // Todo bien, vamos a la Sección 3 (Datos Personales)
+    document.getElementById('section-2').classList.add('hidden');
+    document.getElementById('section-3').classList.remove('hidden');
+    window.scrollTo(0, 0);
+};
+
+window.goToSection2 = function () {
+    document.getElementById('section-3').classList.add('hidden');
+    document.getElementById('section-2').classList.remove('hidden');
     window.scrollTo(0, 0);
 };
 
@@ -223,48 +271,53 @@ if (mainForm) {
         const transactionId = `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         console.log(`📝 [${transactionId}] Evento submit capturado. Validando...`);
 
-        const required = QUESTIONS.flatMap(q => [`past_${q.id}`]);
-        const missing = required.filter(k => !responses[k]);
+        // Validar Sección 3 (Datos Personales) antes de enviar definitivamente
+        const userNameInput = document.getElementById('user-name');
+        const userSurnameInput = document.getElementById('user-surname');
+        const userProfileInput = document.getElementById('user-profile');
 
-        if (missing.length > 0) {
-            alert('Por favor, selecciona una opción para todas las categorías antes de enviar.');
+        const userName = userNameInput ? userNameInput.value.trim() : "";
+        const userSurname = userSurnameInput ? userSurnameInput.value.trim() : "";
+        const userProfile = userProfileInput ? userProfileInput.value : "";
+
+        if (!userName) {
+            alert('Por favor, escribe tu nombre.');
+            userNameInput.focus();
+            return;
+        }
+        if (!userSurname) {
+            alert('Por favor, escribe tus apellidos.');
+            userSurnameInput.focus();
+            return;
+        }
+        if (!userProfile) {
+            alert('Por favor, selecciona tu género.');
+            userProfileInput.focus();
             return;
         }
 
         const btn = document.getElementById('submit-btn');
-        const userNameInput = document.getElementById('user-name');
-        const userName = userNameInput ? userNameInput.value.trim() : "Anónimo";
-
-        const userProfileInput = document.getElementById('user-profile');
-        const userProfile = userProfileInput ? userProfileInput.value : "";
-
-        // Capturar tiempo de uso de IA
-        const timeUsingAiInput = document.querySelector('input[name="time_using_ai"]:checked');
-        const timeUsingAi = timeUsingAiInput ? timeUsingAiInput.value : "";
-
-        // Capturar frecuencia uso IA
-        const freqUsingAiInput = document.querySelector('input[name="frequency_using_ai"]:checked');
-        const freqUsingAi = freqUsingAiInput ? freqUsingAiInput.value : "";
-
-        // Capturar usos de IA (Multiselección)
-        const aiUsageNodes = document.querySelectorAll('input[name="ai_usage"]:checked');
-        const aiUsage = Array.from(aiUsageNodes).map(n => n.value).join(', ');
-
-        if (!userName && userNameInput) {
-            alert('Por favor, introduce tu nombre.');
-            return;
-        }
-
         // DESACTIVAR INMEDIATAMENTE el botón y marcar como enviando
         isSubmitting = true;
         btn.disabled = true;
         btn.innerHTML = '<span>Guardando...</span>';
         console.log(`🔒 [${transactionId}] Botón desactivado y flag isSubmitting = true`);
 
+        // Recolectar datos de las secciones anteriores
+        const timeUsingAiInput = document.querySelector('input[name="time_using_ai"]:checked');
+        const timeUsingAi = timeUsingAiInput ? timeUsingAiInput.value : "";
+
+        const freqUsingAiInput = document.querySelector('input[name="frequency_using_ai"]:checked');
+        const freqUsingAi = freqUsingAiInput ? freqUsingAiInput.value : "";
+
+        const aiUsageNodes = document.querySelectorAll('input[name="ai_usage"]:checked');
+        const aiUsage = Array.from(aiUsageNodes).map(n => n.value).join(', ');
+
         // Construir payload en el ORDEN EXACTO del cuestionario
         const payload = {
             "Fecha": new Date().toLocaleString(),
             "Nombre": userName,
+            "Apellidos": userSurname,
             "Género": userProfile,
             "¿Cuánto tiempo llevas utilizando la IAG?": timeUsingAi,
             "¿Con qué frecuencia usas la IAG?": freqUsingAi
@@ -396,6 +449,7 @@ if (mainForm) {
 
                 // Limpiar UI
                 if (userNameInput) userNameInput.value = "";
+                if (userSurnameInput) userSurnameInput.value = "";
                 const otrasInput = document.getElementById('freq_otras');
                 if (otrasInput) otrasInput.value = "";
 
