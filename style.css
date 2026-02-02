@@ -1,4 +1,33 @@
 /* Google Fonts - Outfit */
+/* Disclaimer de la Sección 1 */
+.section-disclaimer {
+    text-align: center;
+    margin-bottom: 2rem;
+    padding: 1.25rem;
+    background: #f0f7ff;
+    border-radius: 16px;
+    border: 1px dashed var(--accent);
+    color: var(--text-primary);
+    font-size: 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+    animation: fadeInDown 0.8s ease-out;
+}
+
+@keyframes fadeInDown {
+    from {
+        opacity: 0;
+        transform: translateY(-10px);
+    }
+
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
 :root {
     --bg-main: #f8fafc;
     --bg-card: #ffffff;
@@ -378,7 +407,6 @@ body {
 
 .input-otras::placeholder {
     color: #94a3b8;
-    font-style: italic;
 }
 
 .cell-option-mobile {
