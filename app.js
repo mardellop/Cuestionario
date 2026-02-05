@@ -198,12 +198,27 @@ window.validateAndNext = function () {
     const timeUsingAi = document.querySelector('input[name="time_using_ai"]:checked');
     const freqUsingAi = document.querySelector('input[name="frequency_using_ai"]:checked');
     const aiUsage = document.querySelectorAll('input[name="ai_usage"]:checked');
+
+    if (!timeUsingAi) {
+        alert('Por favor, indica cuánto tiempo llevas utilizando la IAG.');
+        return;
+    }
+    if (!freqUsingAi) {
+        alert('Por favor, indica con qué frecuencia utilizas la IAG.');
+        return;
+    }
+    if (aiUsage.length === 0) {
+        alert('Por favor, indica para qué usas la IA (puedes marcar varias opciones).');
+        return;
     }
 
     // Validar matriz de frecuencia (Excepto "otras" que es opcional)
     const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm'];
     for (const tool of tools) {
         const selected = document.querySelector(`input[name="freq_${tool}"]:checked`);
+        if (!selected) {
+            alert(`Por favor, selecciona la frecuencia para la herramienta: ${tool.charAt(0).toUpperCase() + tool.slice(1)}`);
+            return;
         }
     }
 
@@ -222,6 +237,11 @@ window.prevSection = function () {
 window.validateSection2AndNext = function () {
     const required = QUESTIONS.flatMap(q => [`past_${q.id}`]);
     const missing = required.filter(k => !responses[k]);
+
+    if (missing.length > 0) {
+        alert('Por favor, selecciona una valoración para todas las categorías antes de continuar.');
+        // Opcional: podrías hacer scroll al primer elemento faltante
+        return;
     }
 
     // Todo bien, vamos a la Sección 3 (Datos Personales)
@@ -562,7 +582,3 @@ if (document.readyState === 'loading') {
 } else {
     startup();
 }
-
-
-
-
