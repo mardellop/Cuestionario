@@ -45,37 +45,125 @@ if (sharedD) {
 }
 
 // 4. Renderizado del Cuestionario
-function renderQuestions() {
-    const container = document.getElementById('questions-container');
-    if (!container) return;
+// 5. Gestión de Toggle (Desmarcar)
+window.toggleLikert = function (radio, key, val) {
+    if (radio.getAttribute('data-checked-state') === 'true') {
+        // Desmarcar
+        radio.checked = false;
+        radio.setAttribute('data-checked-state', 'false');
+        delete responses[key];
+        localStorage.setItem('survey_responses', JSON.stringify(responses));
+    } else {
+        // Marcar
+        // Resetear hermanos
+        document.querySelectorAll(`input[name="${radio.name}"]`).forEach(r => {
+            r.setAttribute('data-checked-state', 'false');
+        });
+        radio.setAttribute('data-checked-state', 'true');
+        saveResponse(key, val);
+    }
+};
 
-    container.innerHTML = QUESTIONS.map(q => `
-        <div class="question-row fade-in" data-id="${q.id}">
-            <div class="question-text">
-                <span class="category-title">${q.category}</span>
-                <span class="question-subtext">${q.subtext || ''}</span>
-            </div>
-            
-            <div class="side-past">
-                <div class="likert-group">
-                    ${[1, 2, 3, 4, 5].map(val => `
-                        <label class="likert-option">
-                            <input type="radio" name="past_${q.id}" value="${val}" 
-                                ${responses[`past_${q.id}`] == val ? 'checked' : ''} 
-                                onchange="saveResponse('past_${q.id}', ${val})">
-                            <div class="likert-circle"></div>
-                            <span class="likert-label">${val}</span>
-                        </label>
-                    `).join('')}
+// 4. Renderizado del Cuestionario
+function renderQuestions() {
+    // Parte 1: Preguntas 1-36 (Sección 2)
+    const container1 = document.getElementById('questions-container');
+    if (container1) {
+        const questionsPart1 = QUESTIONS.slice(0, 36);
+        container1.innerHTML = questionsPart1.map(q => `
+            <div class="question-row fade-in" data-id="${q.id}">
+                <div class="question-text">
+                    <span class="category-title">${q.category}</span>
+                    <span class="question-subtext">${q.subtext || ''}</span>
+                </div>
+                
+                <div class="side-past">
+                    <div class="likert-group">
+                        ${[1, 2, 3, 4, 5].map(val => `
+                            <label class="likert-option">
+                                <input type="radio" name="past_${q.id}" value="${val}" 
+                                    ${responses[`past_${q.id}`] == val ? 'checked' : ''} 
+                                    data-checked-state="${responses[`past_${q.id}`] == val ? 'true' : 'false'}"
+                                    onclick="toggleLikert(this, 'past_${q.id}', ${val})">
+                                <div class="likert-circle"></div>
+                                <span class="likert-label">${val}</span>
+                            </label>
+                        `).join('')}
+                    </div>
                 </div>
             </div>
-        </div>
-    `).join('');
+        `).join('');
+    }
+
+    // Parte 2: Preguntas 37-55 (Sección 3)
+    const container2 = document.getElementById('questions-container-part2');
+    if (container2) {
+        const questionsPart2 = QUESTIONS.slice(36);
+        container2.innerHTML = questionsPart2.map(q => `
+            <div class="question-row fade-in" data-id="${q.id}">
+                <div class="question-text">
+                    <span class="category-title">${q.category}</span>
+                    <span class="question-subtext">${q.subtext || ''}</span>
+                </div>
+                
+                <div class="side-past">
+                    <div class="likert-group">
+                        ${[1, 2, 3, 4, 5].map(val => `
+                            <label class="likert-option">
+                                <input type="radio" name="past_${q.id}" value="${val}" 
+                                    ${responses[`past_${q.id}`] == val ? 'checked' : ''} 
+                                    data-checked-state="${responses[`past_${q.id}`] == val ? 'true' : 'false'}"
+                                    onclick="toggleLikert(this, 'past_${q.id}', ${val})">
+                                <div class="likert-circle"></div>
+                                <span class="likert-label">${val}</span>
+                            </label>
+                        `).join('')}
+                    </div>
+                </div>
+            </div>
+        `).join('');
+    }
 
     if (window.lucide) lucide.createIcons();
 
+    // Inicializar lógica de toggle para la Sección 1 (Herramientas)
+    initSection1Toggle();
+
     // Restaurar inputs de la Sección 1
     restoreSection1Inputs();
+}
+
+function initSection1Toggle() {
+    // Seleccionar TODOS los radios de la Sección 1 (incluye tiempo, frecuencia global y herramientas)
+    const section1Radios = document.querySelectorAll('#section-1 input[type="radio"]');
+    section1Radios.forEach(radio => {
+        // Inicializar estado basado en si está checkeado por el navegador/restore
+        if (radio.checked) {
+            radio.setAttribute('data-checked-state', 'true');
+        } else {
+            radio.setAttribute('data-checked-state', 'false');
+        }
+
+        radio.onclick = function () {
+            // Lógica similar a toggleLikert pero para section 1 (que usa inputs normales)
+            if (this.getAttribute('data-checked-state') === 'true') {
+                this.checked = false;
+                this.setAttribute('data-checked-state', 'false');
+                // Actualizar localStorage manualmente si es necesario, 
+                // pero restoreSection1Inputs guarda en 'change', que no salta si desmarcamos via JS?
+                // El listener global 'change' de app.js (linea 145) maneja el guardado.
+                // Al hacer checked=false programaticamente, el evento change NO se dispara.
+                // Debemos dispararlo manualmente o actualizar localStorage.
+                localStorage.removeItem(`input_${this.name}`);
+            } else {
+                // Reset hermanos
+                document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => r.setAttribute('data-checked-state', 'false'));
+                this.setAttribute('data-checked-state', 'true');
+                // El evento click dispara change nativo si cambia de unchecked a checked? Si.
+                // Permitimos que fluya para que el listener global guarde.
+            }
+        };
+    });
 }
 
 // Persistencia de inputs de la Sección 1
@@ -175,6 +263,7 @@ window.resetSurvey = function () {
     document.getElementById('section-1').classList.remove('hidden');
     document.getElementById('section-2').classList.add('hidden');
     document.getElementById('section-3').classList.add('hidden');
+    document.getElementById('section-4').classList.add('hidden');
 
     // 4. Asegurar que volvemos arriba de todo para ver el título y el disclaimer
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -194,35 +283,9 @@ window.resetSurvey = function () {
 };
 
 // Función para navegar entre secciones
+// Función para navegar entre secciones
 window.validateAndNext = function () {
-    const timeUsingAi = document.querySelector('input[name="time_using_ai"]:checked');
-    const freqUsingAi = document.querySelector('input[name="frequency_using_ai"]:checked');
-    const aiUsage = document.querySelectorAll('input[name="ai_usage"]:checked');
-
-    if (!timeUsingAi) {
-        alert('Por favor, indica cuánto tiempo llevas utilizando la IAG.');
-        return;
-    }
-    if (!freqUsingAi) {
-        alert('Por favor, indica con qué frecuencia utilizas la IAG.');
-        return;
-    }
-    if (aiUsage.length === 0) {
-        alert('Por favor, indica para qué usas la IA (puedes marcar varias opciones).');
-        return;
-    }
-
-    // Validar matriz de frecuencia (Excepto "otras" que es opcional)
-    const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm'];
-    for (const tool of tools) {
-        const selected = document.querySelector(`input[name="freq_${tool}"]:checked`);
-        if (!selected) {
-            alert(`Por favor, selecciona la frecuencia para la herramienta: ${tool.charAt(0).toUpperCase() + tool.slice(1)}`);
-            return;
-        }
-    }
-
-    // Si todo es válido, cambiar de sección 1 -> 2
+    // Si todo es válido (ahora opcional), cambiar de sección 1 -> 2
     document.getElementById('section-1').classList.add('hidden');
     document.getElementById('section-2').classList.remove('hidden');
     window.scrollTo(0, 0);
@@ -235,24 +298,28 @@ window.prevSection = function () {
 };
 
 window.validateSection2AndNext = function () {
-    const required = QUESTIONS.flatMap(q => [`past_${q.id}`]);
-    const missing = required.filter(k => !responses[k]);
-
-    if (missing.length > 0) {
-        alert('Por favor, selecciona una valoración para todas las categorías antes de continuar.');
-        // Opcional: podrías hacer scroll al primer elemento faltante
-        return;
-    }
-
-    // Todo bien, vamos a la Sección 3 (Datos Personales)
+    // Todo bien (ahora opcional), vamos a la Sección 3 (Preguntas 37-55)
     document.getElementById('section-2').classList.add('hidden');
     document.getElementById('section-3').classList.remove('hidden');
+    window.scrollTo(0, 0);
+};
+
+window.validateSection3AndNext = function () {
+    // Todo bien (ahora opcional), vamos a la Sección 4 (Datos Personales)
+    document.getElementById('section-3').classList.add('hidden');
+    document.getElementById('section-4').classList.remove('hidden');
     window.scrollTo(0, 0);
 };
 
 window.goToSection2 = function () {
     document.getElementById('section-3').classList.add('hidden');
     document.getElementById('section-2').classList.remove('hidden');
+    window.scrollTo(0, 0);
+};
+
+window.goToSection3 = function () {
+    document.getElementById('section-4').classList.add('hidden');
+    document.getElementById('section-3').classList.remove('hidden');
     window.scrollTo(0, 0);
 };
 
@@ -271,7 +338,7 @@ if (mainForm) {
         const transactionId = `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         console.log(`📝 [${transactionId}] Evento submit capturado. Validando...`);
 
-        // Validar Sección 3 (Datos Personales) antes de enviar definitivamente
+        // Validar Sección 3 (Datos Personales) - OPCIONAL
         const userNameInput = document.getElementById('user-name');
         const userSurnameInput = document.getElementById('user-surname');
         const userProfileInput = document.getElementById('user-profile');
@@ -280,19 +347,11 @@ if (mainForm) {
         const userSurname = userSurnameInput ? userSurnameInput.value.trim() : "";
         const userProfile = userProfileInput ? userProfileInput.value : "";
 
-        if (!userName) {
-            alert('Por favor, escribe tu nombre.');
-            userNameInput.focus();
-            return;
-        }
+        // VALIDACIÓN DE APELLIDOS (OBLIGATORIO)
         if (!userSurname) {
-            alert('Por favor, escribe tus apellidos.');
-            userSurnameInput.focus();
-            return;
-        }
-        if (!userProfile) {
-            alert('Por favor, selecciona tu género.');
-            userProfileInput.focus();
+            alert('Por favor, indica tus apellidos para poder enviar el cuestionario.');
+            if (userSurnameInput) userSurnameInput.focus();
+            isSubmitting = false;
             return;
         }
 
@@ -328,7 +387,10 @@ if (mainForm) {
         tools.forEach(tool => {
             const val = document.querySelector(`input[name="freq_${tool}"]:checked`);
             if (val) {
-                const toolName = tool === 'dalle' ? 'Dall-e' : tool.charAt(0).toUpperCase() + tool.slice(1);
+                let toolName = tool.charAt(0).toUpperCase() + tool.slice(1);
+                if (tool === 'dalle') toolName = 'Dall-e';
+                if (tool === 'notebooklm') toolName = 'NotebookLM';
+
                 payload[`Frecuencia_${toolName}`] = val.value;
             }
         });
@@ -379,7 +441,7 @@ if (mainForm) {
 
             // PASO 3: Enviar a Google Sheets (con reintentos)
             if (webhook) {
-                btn.innerHTML = '<span>Enviando cuestionario... (esto puede tardar un poco)</span>';
+                btn.innerHTML = '<span>Enviando cuestionario...</span>';
                 // El webhook de Google Apps Script ahora gestiona tanto la hoja de cálculo como el envío del email con el adjunto .txt
                 console.log(`📤 [${transactionId}] Iniciando envío a Google Sheets y Backup Gmail...`);
 
