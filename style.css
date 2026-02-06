@@ -31,7 +31,7 @@
 :root {
     --bg-main: #f8fafc;
     --bg-card: #ffffff;
-    --accent: #5b67f1;
+    --accent: #4888F7;
     /* Azul vibrante de la imagen */
     --accent-light: rgba(91, 103, 241, 0.15);
     --accent-shadow: rgba(91, 103, 241, 0.4);
@@ -130,7 +130,7 @@ body {
 }
 
 .survey-intro h1 {
-    font-size: 1.1rem;
+    font-size: 1.75rem;
     margin-bottom: 1rem;
     color: #000000;
 }
@@ -569,6 +569,7 @@ body {
     color: #000;
     border-bottom: 1px solid var(--border);
     text-align: center;
+    width: fit-content;
 }
 
 /* Encabezado de la matriz */
@@ -618,8 +619,8 @@ body {
 
 /* Estilo para cuando se selecciona */
 .rating-item input:checked+i {
-    background-color: #5b67f1;
-    border-color: #5b67f1;
+    background-color: #4888F7;
+    border-color: #4888F7;
     box-shadow: inset 0 0 0 3px white;
 }
 
@@ -637,10 +638,25 @@ body {
     text-align: center;
 }
 
-#questions-container {
+#questions-container,
+#questions-container-part2 {
     background: white;
     border-radius: 0 0 12px 12px;
     box-shadow: 0 10px 30px rgba(0, 0, 0, 0.03);
+}
+
+/* Ajuste específico para la lista de herramientas (Sección 1) */
+.tool-frequency-row {
+    display: grid;
+    grid-template-columns: 0.5fr 1.5fr;
+    align-items: center;
+    padding: 1.25rem 2.5rem;
+    border-bottom: 1px solid var(--border);
+    transition: background 0.2s;
+}
+
+.tool-frequency-row:hover {
+    background: #fcfdfe;
 }
 
 .question-row {
@@ -743,6 +759,74 @@ body {
 }
 
 .likert-option input:checked~.likert-label {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* Tool Frequency Likert Scales (Isolated) */
+.tool-likert-group {
+    display: flex;
+    justify-content: flex-start;
+    padding: 0 6rem;
+    padding-left: 0;
+}
+
+.tool-likert-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
+.tool-likert-circle {
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgb(95, 99, 104);
+    border-radius: 50%;
+    background: white;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.tool-likert-label {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
+.tool-likert-option input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
+/* Checked State for Tool Frequency */
+.tool-likert-option input:checked+.tool-likert-circle {
+    border-color: var(--accent);
+    background: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px var(--accent-shadow);
+}
+
+.tool-likert-option input:checked+.tool-likert-circle::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+}
+
+.tool-likert-option input:checked~.tool-likert-label {
     color: var(--accent);
     font-weight: 700;
 }
@@ -1133,7 +1217,3 @@ body {
         margin: 0 2px;
     }
 }
-
-
-
-
