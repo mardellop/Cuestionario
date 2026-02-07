@@ -177,7 +177,7 @@ body {
     text-transform: none;
     letter-spacing: normal;
     white-space: nowrap;
-    min-width: 100px;
+    padding: 4px;
 }
 
 .user-info-section input,
@@ -648,7 +648,8 @@ body {
 /* Ajuste específico para la lista de herramientas (Sección 1) */
 .tool-frequency-row {
     display: grid;
-    grid-template-columns: 0.5fr 1.5fr;
+    grid-template-columns: 2fr 1.5fr;
+    /* Mismo que .question-row */
     align-items: center;
     padding: 1.25rem 2.5rem;
     border-bottom: 1px solid var(--border);
@@ -693,84 +694,14 @@ body {
 }
 
 /* Likert Scales */
-.likert-group {
+.likert-group,
+.tool-likert-group {
     display: flex;
     justify-content: space-around;
     padding: 0 1rem;
 }
 
-.likert-option {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 0.75rem;
-    cursor: pointer;
-    position: relative;
-    user-select: none;
-}
-
-.likert-circle {
-    width: 36px;
-    height: 36px;
-    border: 2px solid rgb(95, 99, 104);
-    border-radius: 50%;
-    background: white;
-    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
-
-.likert-label {
-    font-size: 0.9rem;
-    font-weight: 400;
-    color: var(--text-muted);
-}
-
-.likert-option input {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    opacity: 0;
-    cursor: pointer;
-    z-index: 2;
-}
-
-
-/* Checked State */
-.likert-option input:checked+.likert-circle {
-    border-color: var(--accent);
-    background: white;
-    /* Fondo blanco */
-    transform: scale(1.1);
-    box-shadow: 0 4px 12px var(--accent-shadow);
-}
-
-.likert-option input:checked+.likert-circle::after {
-    content: "";
-    width: 20px;
-    /* Punto azul más grande y protagónico */
-    height: 20px;
-    background: var(--accent);
-    /* Punto azul */
-    border-radius: 50%;
-}
-
-.likert-option input:checked~.likert-label {
-    color: var(--accent);
-    font-weight: 700;
-}
-
-/* Tool Frequency Likert Scales (Isolated) */
-.tool-likert-group {
-    display: flex;
-    justify-content: flex-start;
-    padding: 0 6rem;
-    padding-left: 0;
-}
-
+.likert-option,
 .tool-likert-option {
     display: flex;
     flex-direction: column;
@@ -781,6 +712,7 @@ body {
     user-select: none;
 }
 
+.likert-circle,
 .tool-likert-circle {
     width: 36px;
     height: 36px;
@@ -793,12 +725,14 @@ body {
     justify-content: center;
 }
 
+.likert-label,
 .tool-likert-label {
     font-size: 0.9rem;
     font-weight: 400;
     color: var(--text-muted);
 }
 
+.likert-option input,
 .tool-likert-option input {
     position: absolute;
     top: 0;
@@ -810,7 +744,9 @@ body {
     z-index: 2;
 }
 
-/* Checked State for Tool Frequency */
+
+/* Checked State */
+.likert-option input:checked+.likert-circle,
 .tool-likert-option input:checked+.tool-likert-circle {
     border-color: var(--accent);
     background: white;
@@ -818,6 +754,7 @@ body {
     box-shadow: 0 4px 12px var(--accent-shadow);
 }
 
+.likert-option input:checked+.likert-circle::after,
 .tool-likert-option input:checked+.tool-likert-circle::after {
     content: "";
     width: 20px;
@@ -826,10 +763,13 @@ body {
     border-radius: 50%;
 }
 
+.likert-option input:checked~.likert-label,
 .tool-likert-option input:checked~.tool-likert-label {
     color: var(--accent);
     font-weight: 700;
 }
+
+/* Tool Frequency Likert Scales (Now using shared styles above) */
 
 /* Admin Panel Styling */
 .admin-card {
@@ -1146,6 +1086,64 @@ body {
         /* Pregunta | Pasado */
         grid-gap: 12px;
         align-items: center;
+    }
+
+    /* --- RESPONSIVE SECCIÓN 1 (Herramientas) - AHORA IGUAL A SECCIONES 2 Y 3 --- */
+    .tool-frequency-row {
+        grid-template-columns: 1fr 140px;
+        /* Igual que .question-row */
+        padding: 1.5rem 1rem;
+        /* Reducido un poco para móvil */
+        border: none;
+        /* ELIMINADO EL CUADRADO EN MÓVIL */
+        border-bottom: 1px solid var(--border);
+        /* Solo línea divisoria */
+        gap: 12px;
+        align-items: center;
+    }
+
+    .tool-frequency-row .question-text {
+        padding-right: 0;
+        margin-bottom: 0;
+    }
+
+    .tool-frequency-row .category-title {
+        font-size: 1.1rem;
+        margin-bottom: 0.5rem;
+        line-height: 1.2;
+    }
+
+    .tool-likert-group {
+        padding: 0 1rem;
+        display: flex;
+        justify-content: space-around;
+        width: 140px;
+    }
+
+    .tool-likert-circle {
+        width: 36px;
+        height: 36px;
+        border-width: 2px;
+    }
+
+    .tool-likert-circle::after {
+        width: 20px !important;
+        height: 20px !important;
+    }
+
+    .tool-likert-option {
+        gap: 0.75rem;
+    }
+
+    .tool-likert-label {
+        font-size: 0.9rem;
+    }
+
+    /* Ajuste para el input "Otras" en la fila de herramientas */
+    .tool-frequency-row:last-child {
+        display: flex;
+        flex-direction: column !important;
+        align-items: flex-start !important;
     }
 
     .side-past,
