@@ -648,10 +648,11 @@ body {
 /* Ajuste específico para la lista de herramientas (Sección 1) */
 .tool-frequency-row {
     display: grid;
-    grid-template-columns: 2fr 1.5fr;
+    grid-template-columns: 0.27fr 1.5fr;
     /* Mismo que .question-row */
     align-items: center;
-    padding: 1.25rem 2.5rem;
+    padding-top: 20px;
+    padding-bottom: 20px;
     border-bottom: 1px solid var(--border);
     transition: background 0.2s;
 }
@@ -697,8 +698,7 @@ body {
 .likert-group,
 .tool-likert-group {
     display: flex;
-    justify-content: space-around;
-    padding: 0 1rem;
+    justify-content: flex-start;
 }
 
 .likert-option,
@@ -1092,13 +1092,11 @@ body {
     .tool-frequency-row {
         grid-template-columns: 1fr 140px;
         /* Igual que .question-row */
-        padding: 1.5rem 1rem;
         /* Reducido un poco para móvil */
         border: none;
         /* ELIMINADO EL CUADRADO EN MÓVIL */
         border-bottom: 1px solid var(--border);
         /* Solo línea divisoria */
-        gap: 12px;
         align-items: center;
     }
 
