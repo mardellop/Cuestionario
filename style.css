@@ -694,14 +694,30 @@ body {
     color: var(--text-muted);
 }
 
-/* Likert Scales */
-.likert-group,
+/* Likert Scales (Standard) */
+.likert-group {
+    display: flex;
+    justify-content: space-around;
+    padding: 0 1rem;
+}
+
+/* Tool Frequency Likert Scales (Dedicated Container) */
 .tool-likert-group {
     display: flex;
     justify-content: flex-start;
+    padding: 0 1rem;
 }
 
-.likert-option,
+.likert-option {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+    position: relative;
+    user-select: none;
+}
+
 .tool-likert-option {
     display: flex;
     flex-direction: column;
@@ -712,7 +728,18 @@ body {
     user-select: none;
 }
 
-.likert-circle,
+.likert-circle {
+    width: 36px;
+    height: 36px;
+    border: 2px solid rgb(95, 99, 104);
+    border-radius: 50%;
+    background: white;
+    transition: all 0.2s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
 .tool-likert-circle {
     width: 36px;
     height: 36px;
@@ -725,14 +752,29 @@ body {
     justify-content: center;
 }
 
-.likert-label,
+.likert-label {
+    font-size: 0.9rem;
+    font-weight: 400;
+    color: var(--text-muted);
+}
+
 .tool-likert-label {
     font-size: 0.9rem;
     font-weight: 400;
     color: var(--text-muted);
 }
 
-.likert-option input,
+.likert-option input {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    opacity: 0;
+    cursor: pointer;
+    z-index: 2;
+}
+
 .tool-likert-option input {
     position: absolute;
     top: 0;
@@ -745,8 +787,28 @@ body {
 }
 
 
-/* Checked State */
-.likert-option input:checked+.likert-circle,
+/* Checked State Standard */
+.likert-option input:checked+.likert-circle {
+    border-color: var(--accent);
+    background: white;
+    transform: scale(1.1);
+    box-shadow: 0 4px 12px var(--accent-shadow);
+}
+
+.likert-option input:checked+.likert-circle::after {
+    content: "";
+    width: 20px;
+    height: 20px;
+    background: var(--accent);
+    border-radius: 50%;
+}
+
+.likert-option input:checked~.likert-label {
+    color: var(--accent);
+    font-weight: 700;
+}
+
+/* Checked State Tool Frequency */
 .tool-likert-option input:checked+.tool-likert-circle {
     border-color: var(--accent);
     background: white;
@@ -754,7 +816,6 @@ body {
     box-shadow: 0 4px 12px var(--accent-shadow);
 }
 
-.likert-option input:checked+.likert-circle::after,
 .tool-likert-option input:checked+.tool-likert-circle::after {
     content: "";
     width: 20px;
@@ -763,7 +824,6 @@ body {
     border-radius: 50%;
 }
 
-.likert-option input:checked~.likert-label,
 .tool-likert-option input:checked~.tool-likert-label {
     color: var(--accent);
     font-weight: 700;
