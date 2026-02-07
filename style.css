@@ -897,7 +897,7 @@ body {
 }
 
 .btn-primary:hover {
-    background: #4c51bf;
+    background: #2773F5;
     transform: translateY(-2px);
 }
 
@@ -1217,3 +1217,4 @@ body {
         margin: 0 2px;
     }
 }
+
