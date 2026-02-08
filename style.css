@@ -685,7 +685,6 @@ body {
     font-size: 1.1rem;
     /* Reducido de 1.3rem */
     color: #000000;
-    margin-bottom: 0.5rem;
     text-align: justify;
 }
 
@@ -1272,3 +1271,4 @@ body {
         margin: 0 2px;
     }
 }
+
