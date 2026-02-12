@@ -2,7 +2,6 @@
  * MATRIX ANALYSIS - CORE LOGIC
  * Las preguntas se cargan desde el bloque script en index.html
  */
-
 // 2. Utilidades de Codificación Robustas
 function robustEncode(obj) {
     try {
@@ -12,7 +11,6 @@ function robustEncode(obj) {
         return "";
     }
 }
-
 function robustDecode(str) {
     try {
         if (!str) return null;
@@ -23,15 +21,12 @@ function robustDecode(str) {
         return null;
     }
 }
-
 // 3. Inicialización de Estado sincronizada
 const urlParams = new URLSearchParams(window.location.search);
 const sharedD = urlParams.get('d');
 const sharedW = urlParams.get('w');
-
 let QUESTIONS = [];
 let responses = JSON.parse(localStorage.getItem('survey_responses')) || {};
-
 // Lógica de carga de preguntas (Prioriza URL, luego LocalStorage, luego DEFAULT en HTML)
 if (sharedD) {
     const fromUrl = robustDecode(sharedD);
@@ -43,24 +38,20 @@ if (sharedD) {
     const local = localStorage.getItem('admin_questions');
     QUESTIONS = local ? JSON.parse(local) : [...DEFAULT_QUESTIONS];
 }
-
 // 4. Renderizado del Cuestionario
 // 5. Gestión de Toggle (Desmarcar)
 window.toggleLikert = function (radio, key, val) {
     const saveStatus = document.getElementById('save-status');
-
     if (radio.getAttribute('data-checked-state') === 'true') {
         // Desmarcar
         radio.checked = false;
         radio.setAttribute('data-checked-state', 'false');
         delete responses[key];
         localStorage.setItem('survey_responses', JSON.stringify(responses));
-
         // Feedback visual para desmarcado
         if (saveStatus) {
             saveStatus.innerHTML = '<i data-lucide="refresh-cw" class="icon-small spin"></i> Guardando...';
             if (window.lucide) lucide.createIcons();
-
             setTimeout(() => {
                 saveStatus.innerHTML = '<i data-lucide="check-circle" class="icon-small"></i> Guardado automáticamente';
                 if (window.lucide) lucide.createIcons();
@@ -76,7 +67,6 @@ window.toggleLikert = function (radio, key, val) {
         saveResponse(key, val); // saveResponse ya tiene su propio feedback visual
     }
 };
-
 // 4. Renderizado del Cuestionario
 function renderQuestions() {
     // Parte 1: Preguntas 1-36 (Sección 2)
@@ -107,7 +97,6 @@ function renderQuestions() {
             </div>
         `).join('');
     }
-
     // Parte 2: Preguntas 37-55 (Sección 3)
     const container2 = document.getElementById('questions-container-part2');
     if (container2) {
@@ -136,16 +125,12 @@ function renderQuestions() {
             </div>
         `).join('');
     }
-
     if (window.lucide) lucide.createIcons();
-
     // Inicializar lógica de toggle para la Sección 1 (Herramientas)
     initSection1Toggle();
-
     // Restaurar inputs de la Sección 1
     restoreSection1Inputs();
 }
-
 function initSection1Toggle() {
     // Seleccionar TODOS los radios de la Sección 1 (incluye tiempo, frecuencia global y herramientas)
     const section1Radios = document.querySelectorAll('#section-1 input[type="radio"]');
@@ -156,10 +141,8 @@ function initSection1Toggle() {
         } else {
             radio.setAttribute('data-checked-state', 'false');
         }
-
         radio.onclick = function () {
             const saveStatus = document.getElementById('save-status');
-
             // Función helper para feedback
             const showFeedback = (msg = 'Guardado automáticamente', icon = 'check-circle') => {
                 if (saveStatus) {
@@ -171,25 +154,21 @@ function initSection1Toggle() {
                     }, 600);
                 }
             };
-
             // Lógica similar a toggleLikert pero para section 1 (que usa inputs normales)
             if (this.getAttribute('data-checked-state') === 'true') {
                 this.checked = false;
                 this.setAttribute('data-checked-state', 'false');
                 localStorage.removeItem(`input_${this.name}`);
-
                 showFeedback('Guardado automáticamente');
             } else {
                 // Reset hermanos
                 document.querySelectorAll(`input[name="${this.name}"]`).forEach(r => r.setAttribute('data-checked-state', 'false'));
                 this.setAttribute('data-checked-state', 'true');
-
                 showFeedback('Guardado automáticamente');
             }
         };
     });
 }
-
 // Persistencia de inputs de la Sección 1
 function restoreSection1Inputs() {
     const inputs = {
@@ -198,18 +177,15 @@ function restoreSection1Inputs() {
         'user-profile': 'value',
         'freq_otras': 'value'
     };
-
     for (let id in inputs) {
         const val = localStorage.getItem(`input_${id}`);
         if (val) document.getElementById(id).value = val;
     }
-
     // Radios y Checkboxes
     const names = ['time_using_ai', 'frequency_using_ai', 'ai_usage'];
     // Herramientas IA
     const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm', 'otras'];
     tools.forEach(t => names.push(`freq_${t}`));
-
     names.forEach(name => {
         const saved = localStorage.getItem(`input_${name}`);
         if (saved) {
@@ -221,7 +197,6 @@ function restoreSection1Inputs() {
         }
     });
 }
-
 // Listener global para guardar cambios en tiempo real
 document.addEventListener('change', (e) => {
     const el = e.target;
@@ -235,7 +210,6 @@ document.addEventListener('change', (e) => {
             const checked = Array.from(document.querySelectorAll(`input[name="${el.name}"]:checked`))
                 .map(i => i.value);
             localStorage.setItem(`input_${el.name}`, checked.join('|||'));
-
             // Feedback visual para checkboxes
             const saveStatus = document.getElementById('save-status');
             if (saveStatus) {
@@ -249,7 +223,6 @@ document.addEventListener('change', (e) => {
         }
     }
 });
-
 // Listener para el input de texto Nombre (keyup para mayor fluidez)
 document.addEventListener('keyup', (e) => {
     if (e.target.id === 'user-name') {
@@ -260,12 +233,10 @@ document.addEventListener('keyup', (e) => {
         localStorage.setItem(`input_freq_otras`, e.target.value);
     }
 });
-
 // 5. Gestión de Respuestas
 window.saveResponse = function (key, value) {
     responses[key] = value;
     localStorage.setItem('survey_responses', JSON.stringify(responses));
-
     const saveStatus = document.getElementById('save-status');
     if (saveStatus) {
         saveStatus.innerHTML = '<i data-lucide="refresh-cw" class="icon-small spin"></i> Guardando...';
@@ -276,33 +247,26 @@ window.saveResponse = function (key, value) {
         }, 800);
     }
 };
-
 // 6. Envío Robusto a Supabase + Google Sheets
 // Flag global para prevenir envíos duplicados
 let isSubmitting = false;
-
 // Función para reiniciar el cuestionario sin recargar la página
 window.resetSurvey = function () {
     // 1. Ocultar modal de éxito
     const modal = document.getElementById('modal-success');
     if (modal) modal.classList.add('hidden');
-
     // 2. Limpiar todos los datos en memoria y localStorage
     localStorage.removeItem('survey_responses');
     responses = {};
-
     // Limpiar inputs visuales (Sección 1/3)
     document.getElementById('matrix-form').reset();
-
     // 3. Volver a la Sección 1 y ocultar las demás
     document.getElementById('section-1').classList.remove('hidden');
     document.getElementById('section-2').classList.add('hidden');
     document.getElementById('section-3').classList.add('hidden');
     document.getElementById('section-4').classList.add('hidden');
-
     // 4. Asegurar que volvemos arriba de todo para ver el título y el disclaimer
     window.scrollTo({ top: 0, behavior: 'smooth' });
-
     // 5. Reiniciar flag de envío
     isSubmitting = false;
     const btn = document.getElementById('submit-btn');
@@ -310,13 +274,10 @@ window.resetSurvey = function () {
         btn.disabled = false;
         btn.innerHTML = '<span>Enviar Cuestionario</span><i data-lucide="send" class="icon-right"></i>';
     }
-
     // Re-iniciar iconos si es necesario
     if (window.lucide) lucide.createIcons();
-
     console.log("♻️ Cuestionario reseteado correctamente.");
 };
-
 // Función para navegar entre secciones
 // Función para navegar entre secciones
 window.validateAndNext = function () {
@@ -325,61 +286,50 @@ window.validateAndNext = function () {
     document.getElementById('section-2').classList.remove('hidden');
     window.scrollTo(0, 0);
 };
-
 window.prevSection = function () {
     document.getElementById('section-2').classList.add('hidden');
     document.getElementById('section-1').classList.remove('hidden');
     window.scrollTo(0, 0);
 };
-
 window.validateSection2AndNext = function () {
     // Todo bien (ahora opcional), vamos a la Sección 3 (Preguntas 37-55)
     document.getElementById('section-2').classList.add('hidden');
     document.getElementById('section-3').classList.remove('hidden');
     window.scrollTo(0, 0);
 };
-
 window.validateSection3AndNext = function () {
     // Todo bien (ahora opcional), vamos a la Sección 4 (Datos Personales)
     document.getElementById('section-3').classList.add('hidden');
     document.getElementById('section-4').classList.remove('hidden');
     window.scrollTo(0, 0);
 };
-
 window.goToSection2 = function () {
     document.getElementById('section-3').classList.add('hidden');
     document.getElementById('section-2').classList.remove('hidden');
     window.scrollTo(0, 0);
 };
-
 window.goToSection3 = function () {
     document.getElementById('section-4').classList.add('hidden');
     document.getElementById('section-3').classList.remove('hidden');
     window.scrollTo(0, 0);
 };
-
 const mainForm = document.getElementById('matrix-form');
 if (mainForm) {
     mainForm.addEventListener('submit', async (e) => {
         e.preventDefault();
-
         // PROTECCIÓN CONTRA DUPLICADOS: Verificar si ya hay un envío en progreso
         if (isSubmitting) {
             console.warn("⚠️ Envío ya en progreso. Ignorando evento duplicado.");
             return;
         }
-
         // Generar ID único para esta transacción (para debugging)
         const transactionId = `tx_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`;
         console.log(`📝 [${transactionId}] Evento submit capturado. Validando...`);
-
         // Validar Sección 4 (Datos Personales) - Apellidos es el único obligatorio
         const userSurnameInput = document.getElementById('user-surname');
         const userProfileInput = document.getElementById('user-profile');
-
         const userSurname = userSurnameInput ? userSurnameInput.value.trim() : "";
         const userProfile = userProfileInput ? userProfileInput.value : "";
-
         const btn = document.getElementById('submit-btn');
         // VALIDACIÓN DE APELLIDOS (OBLIGATORIO)
         if (!userSurname) {
@@ -388,23 +338,18 @@ if (mainForm) {
             isSubmitting = false;
             return;
         }
-
         // DESACTIVAR INMEDIATAMENTE el botón y marcar como enviando
         isSubmitting = true;
         btn.disabled = true;
         btn.innerHTML = '<span>Guardando...</span>';
         console.log(`🔒 [${transactionId}] Botón desactivado y flag isSubmitting = true`);
-
         // Recolectar datos de las secciones anteriores
         const timeUsingAiInput = document.querySelector('input[name="time_using_ai"]:checked');
         const timeUsingAi = timeUsingAiInput ? timeUsingAiInput.value : "";
-
         const freqUsingAiInput = document.querySelector('input[name="frequency_using_ai"]:checked');
         const freqUsingAi = freqUsingAiInput ? freqUsingAiInput.value : "";
-
         const aiUsageNodes = document.querySelectorAll('input[name="ai_usage"]:checked');
         const aiUsage = Array.from(aiUsageNodes).map(n => n.value).join(', ');
-
         // Construir payload EN EL ORDEN Y CON LAS CLAVES EXACTAS para Sheets y Supabase
         const payload = {
             "Fecha": new Date().toLocaleString(),
@@ -413,7 +358,6 @@ if (mainForm) {
             "¿Cuánto tiempo llevas utilizando la IAG?": timeUsingAi,
             "¿Con qué frecuencia usas la IAG?": freqUsingAi
         };
-
         // 1. Matriz de frecuencia de herramientas (en el orden exacto del SQL)
         const tools = ['chatgpt', 'copilot', 'gemini', 'claude', 'canva', 'gamma', 'perplexity', 'dalle', 'notebooklm'];
         tools.forEach(tool => {
@@ -423,7 +367,6 @@ if (mainForm) {
                 if (tool === 'chatgpt') toolName = 'Chatgpt'; // Normalizar para SQL
                 if (tool === 'dalle') toolName = 'Dall-e';
                 if (tool === 'notebooklm') toolName = 'NotebookLM';
-
                 payload[`Frecuencia_${toolName}`] = val.value;
             } else {
                 // Asegurar que la key existe aunque sea vacía para evitar desfases en Sheets
@@ -434,31 +377,24 @@ if (mainForm) {
                 payload[`Frecuencia_${toolName}`] = "";
             }
         });
-
         // 1.1 "Otras" herramientas
         const otrasVal = document.getElementById('freq_otras')?.value;
         payload[`Frecuencia_Otras`] = otrasVal || "";
-
         // 2. ¿Para qué usas la IA? (Multiselección)
-        payload["¿Para qué usas la IA?"] = aiUsage;
-
+        payload["¿Para qué usas la IAG? (Marca todas las que apliquen)"] = aiUsage;
         // 3. Items de valoración (1-55) con nombres completos del index.html
         QUESTIONS.forEach((q) => {
             const pv = responses[`past_${q.id}`];
             // Enviamos el valor o vacío, pero SIEMPRE la clave para mantener la estructura de la fila
             payload[`${q.category}`] = pv !== undefined ? pv : "";
         });
-
         console.log(`📦 [${transactionId}] Payload construido:`, payload);
-
         try {
             // PASO 1: Guardar en Supabase (Base de datos principal)
             console.log(`📊 [${transactionId}] Guardando en Supabase...`);
             btn.innerHTML = '<span>Guardando...</span>';
-
             let supabaseRecord = null;
             let supabaseSaved = false;
-
             try {
                 supabaseRecord = await saveToSupabase(payload);
                 supabaseSaved = true;
@@ -467,49 +403,39 @@ if (mainForm) {
                 console.warn(`⚠️ [${transactionId}] Supabase no disponible, continuando con Google Sheets:`, supabaseError.message);
                 // Si Supabase falla, continuamos con Google Sheets
             }
-
             // PASO 2: Intentar sincronizar registros pendientes
             const webhook = (typeof WEBHOOK_URL !== 'undefined' ? WEBHOOK_URL : '') ||
                 sessionStorage.getItem('temp_webhook') ||
                 localStorage.getItem('google_sheet_webhook');
-
             // NOTA: NO sincronizamos registros pendientes aquí para evitar duplicados.
             // Los registros pendientes se sincronizarán automáticamente en el próximo envío.
-
             // PASO 3: Enviar a Google Sheets (con reintentos)
             if (webhook) {
-                btn.innerHTML = '<span>Enviando cuestionario... (Esto puede tardar un poco)</span>';
+                btn.innerHTML = '<span>Enviando cuestionario...</span>';
                 // El webhook de Google Apps Script ahora gestiona tanto la hoja de cálculo como el envío del email con el adjunto .txt
                 console.log(`📤 [${transactionId}] Iniciando envío a Google Sheets y Backup Gmail...`);
-
                 const maxRetries = 3;
                 let retryCount = 0;
                 let sheetSuccess = false;
-
                 while (retryCount < maxRetries && !sheetSuccess) {
                     try {
                         console.log(`📤 [${transactionId}] Intento ${retryCount + 1}/${maxRetries} de envío a Google Sheets...`);
-
                         await fetch(webhook, {
                             method: 'POST',
                             mode: 'no-cors',
                             cache: 'no-cache',
                             body: JSON.stringify(payload)
                         });
-
                         sheetSuccess = true;
                         console.log(`✅ [${transactionId}] Datos enviados a Google Sheets`);
-
                         // Marcar como sincronizado en Supabase SOLO si se guardó exitosamente
                         if (supabaseSaved && supabaseRecord) {
                             await markAsSynced(supabaseRecord.id);
                             console.log(`✅ [${transactionId}] Registro marcado como sincronizado en Supabase`);
                         }
-
                     } catch (sheetError) {
                         retryCount++;
                         console.warn(`❌ [${transactionId}] Intento ${retryCount} falló:`, sheetError);
-
                         if (retryCount < maxRetries) {
                             // Esperar antes de reintentar (backoff exponencial)
                             const waitTime = Math.pow(2, retryCount) * 1000;
@@ -518,7 +444,6 @@ if (mainForm) {
                         }
                     }
                 }
-
                 if (!sheetSuccess) {
                     console.warn(`⚠️ [${transactionId}] No se pudo enviar a Google Sheets después de 3 intentos`);
                     if (supabaseSaved) {
@@ -528,35 +453,28 @@ if (mainForm) {
             } else {
                 console.warn(`⚠️ [${transactionId}] No hay webhook configurado para Google Sheets`);
             }
-
             // PASO 4: Mostrar éxito al usuario
             console.log(`✅ [${transactionId}] Proceso completado exitosamente`);
             setTimeout(() => {
                 const modal = document.getElementById('modal-success');
                 if (modal) modal.classList.remove('hidden');
-
                 // Limpieza profunda de persistencia
                 localStorage.removeItem('survey_responses');
                 responses = {};
-
                 // Eliminar todos los inputs guardados de la Sección 1
                 Object.keys(localStorage).forEach(key => {
                     if (key.startsWith('input_')) {
                         localStorage.removeItem(key);
                     }
                 });
-
                 // Limpiar UI
                 if (userNameInput) userNameInput.value = "";
                 if (userSurnameInput) userSurnameInput.value = "";
                 const otrasInput = document.getElementById('freq_otras');
                 if (otrasInput) otrasInput.value = "";
-
                 const userProfileSelect = document.getElementById('user-profile');
                 if (userProfileSelect) userProfileSelect.selectedIndex = 0;
-
                 document.querySelectorAll('input[type="radio"], input[type="checkbox"]').forEach(r => r.checked = false);
-
                 // RESETEAR FLAG para permitir nuevos envíos
                 isSubmitting = false;
                 btn.disabled = false;
@@ -564,7 +482,6 @@ if (mainForm) {
                 if (window.lucide) lucide.createIcons();
                 console.log(`🔓 [${transactionId}] Flag isSubmitting reseteado`);
             }, 600);
-
         } catch (err) {
             console.error(`❌ [${transactionId}] Error crítico en el envío:`, err);
             // Mostrar mensaje de error específico
@@ -574,9 +491,7 @@ if (mainForm) {
             } else {
                 errorMsg += 'Por favor, verifica tu conexión e intenta de nuevo.';
             }
-
             alert(errorMsg);
-
             // RESETEAR FLAG para permitir reintentos
             isSubmitting = false;
             btn.disabled = false;
@@ -586,7 +501,6 @@ if (mainForm) {
         }
     });
 }
-
 // Función auxiliar para enviar a Google Sheets
 async function sendToGoogleSheets(webhook, payload) {
     return fetch(webhook, {
@@ -596,7 +510,6 @@ async function sendToGoogleSheets(webhook, payload) {
         body: JSON.stringify(payload)
     });
 }
-
 // 7. Funciones Admin
 window.toggleAdmin = function () {
     const panel = document.getElementById('admin-panel');
@@ -610,9 +523,7 @@ window.toggleAdmin = function () {
         }
     }
 };
-
 window.saveWebhookUrl = (url) => localStorage.setItem('google_sheet_webhook', url);
-
 function renderAdminQuestions() {
     const list = document.getElementById('admin-questions-list');
     if (!list) return;
@@ -624,31 +535,26 @@ function renderAdminQuestions() {
         </div>
     `).join('');
 }
-
 window.addQuestion = () => {
     QUESTIONS.push({ id: 'q' + Date.now(), category: 'Nueva Categoría', subtext: 'Descripción' });
     localSaveQuestions();
     renderAdminQuestions();
     renderQuestions();
 };
-
 window.removeQ = (i) => {
     QUESTIONS.splice(i, 1);
     localSaveQuestions();
     renderAdminQuestions();
     renderQuestions();
 };
-
 window.updateQ = (i, f, v) => {
     QUESTIONS[i][f] = v;
     localSaveQuestions();
     renderQuestions();
 };
-
 function localSaveQuestions() {
     localStorage.setItem('admin_questions', JSON.stringify(QUESTIONS));
 }
-
 window.resetQuestions = () => {
     if (confirm('¿Reiniciar a valores por defecto?')) {
         QUESTIONS = [...DEFAULT_QUESTIONS];
@@ -657,7 +563,6 @@ window.resetQuestions = () => {
         renderQuestions();
     }
 };
-
 window.generateShareLink = () => {
     const d = robustEncode(QUESTIONS);
     const w = localStorage.getItem('google_sheet_webhook');
@@ -669,16 +574,13 @@ window.generateShareLink = () => {
         setTimeout(() => { btn.innerHTML = old; if (window.lucide) lucide.createIcons(); }, 2000);
     });
 };
-
 function startup() {
     const gear = document.getElementById('admin-gear');
     if (gear) gear.style.display = sharedD ? 'none' : 'flex';
     renderQuestions();
 }
-
 if (document.readyState === 'loading') {
     document.addEventListener('DOMContentLoaded', startup);
 } else {
     startup();
 }
-
